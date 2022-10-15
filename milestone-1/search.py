@@ -1,6 +1,3 @@
-from platform import node
-
-
 nodes = [
     "Augsburg",
     "Erfurt",
@@ -45,7 +42,7 @@ def dfs(start=8, end=9):
     visited = []
     stack = [start]
     while len(stack) > 0:
-        print(f"--\n{index_to_name(stack)}, {index_to_name(visited)}\n--\n")
+        print(f"--\n{index_to_name(stack)}, {index_to_name(visited)}\n--")
         if stack[0] == end:
             return "found"
         visited.append(stack[0])
@@ -64,7 +61,7 @@ def bfs(start=8, end=9):
     visited = []
     queue = [start]
     while len(queue) > 0:
-        print(f"--\n{index_to_name(queue)}, {index_to_name(visited)}\n--\n")
+        print(f"--\n{index_to_name(queue)}, {index_to_name(visited)}\n--")
         if queue[0] == end:
             return "found"
         visited.append(queue[0])
