@@ -60,4 +60,24 @@ def dfs(start=8, end=9):
     return "unable to find"
 
 
+def bfs(start=8, end=9):
+    visited = []
+    queue = [start]
+    while len(queue) > 0:
+        print(f"--\n{index_to_name(queue)}, {index_to_name(visited)}\n--\n")
+        if queue[0] == end:
+            return "found"
+        visited.append(queue[0])
+        for e in edges:
+            if e[0] == queue[0]:
+                if e[1] not in visited:
+                    queue.append(e[1])
+            elif e[1] == queue[0]:
+                if e[0] not in visited:
+                    queue.append(e[0])
+        queue.pop(0)
+    return "unable to find"
+
+
 print(dfs())
+print(bfs())
