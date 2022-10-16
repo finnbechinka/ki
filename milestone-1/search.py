@@ -1,4 +1,4 @@
-nodes = [
+node_names = [
     "Augsburg",
     "Erfurt",
     "Frankfurt",
@@ -10,32 +10,34 @@ nodes = [
     "Würzburg",
     "München",
 ]
+# format: node, node, cost
 edges = [
-    [2, 4],
-    [2, 5],
-    [2, 8],
-    [5, 3],
-    [3, 0],
-    [0, 9],
-    [8, 1],
-    [8, 6],
-    [6, 7],
-    [6, 9],
-    [4, 9],
+    [2, 4, 173],
+    [2, 5, 85],
+    [2, 8, 217],
+    [5, 3, 80],
+    [3, 0, 250],
+    [0, 9, 84],
+    [8, 1, 186],
+    [8, 6, 103],
+    [6, 9, 167],
+    [6, 7, 183],
+    [4, 9, 502],
 ]
-
-for i in range(len(nodes)):
-    print(f"{i}: {nodes[i]}")
-
-for i in range(len(edges)):
-    print(f"{nodes[edges[i][0]]} -> {nodes[edges[i][1]]}")
 
 
 def index_to_name(list):
     names = []
     for i in list:
-        names.append(nodes[i])
+        names.append(node_names[i])
     return names
+
+
+for i in range(len(node_names)):
+    print(f"{i}: {node_names[i]}")
+
+for i in range(len(edges)):
+    print(f"{node_names[edges[i][0]]} -> {node_names[edges[i][1]]}")
 
 
 def dfs(start=8, end=9):
