@@ -1,3 +1,6 @@
+from asyncio.windows_events import INFINITE
+
+
 node_names = [
     "Augsburg",
     "Erfurt",
@@ -79,5 +82,29 @@ def bfs(start=8, end=9):
     return "unable to find"
 
 
-print(dfs())
-print(bfs())
+def astar(start=8, end=9, h=heuristics):
+    # node, cost to get to node
+    queue = [[start, 9999]]
+    while len(queue) > 0:
+        print(f"--\n{index_to_name([i[0] for i in queue])}\n--")
+        curr = queue[0]
+        if curr[0] == end:
+            return "found"
+        for e in edges:
+            if e[0] == curr[0]:
+                if e[1] not in [i[0] for i in queue]:
+                    for i in range(len(queue)):
+                        if e[2] + h[e[1]] < queue[i][1]:
+                            queue.insert(i, [e[1], e[2] + h[e[1]]])
+            elif e[1] == curr[0]:
+                if e[0] not in [i[0] for i in queue]:
+                    for i in range(len(queue)):
+                        if e[2] + h[e[1]] < queue[i][1]:
+                            queue.insert(i, [e[0], e[2] + h[e[1]]])
+        queue.remove(curr)
+    return "unable to find"
+
+
+print(f"dfs: {dfs()}")
+print(f"bfs: {bfs()}")
+print(f"A*: {astar()}")
