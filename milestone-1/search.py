@@ -84,26 +84,53 @@ def bfs(start=8, end=9):
 
 def astar(start=8, end=9, h=heuristics):
     # node, cost to get to node
-    visited = []
-    queue = [[start, 9999]]
-    while len(queue) > 0:
-        print(f"--\n{index_to_name([i[0] for i in queue])}, {visited}\n--")
-        curr = queue[0]
-        if curr[0] == end:
+    queue = [
+        [
+            [
+                start,
+            ],
+            0,
+        ]
+    ]
+    i = 0
+    while len(queue) > 0 and i < 50:
+        i += 1
+        print(f"--\n{queue}\n--")
+        partial = queue.pop(0)
+        curr = partial[0][len(partial[0]) - 1]
+        cost = partial[1]
+        # print(f"{partial} --- {curr}")
+        if curr == end:
             return "found"
         for e in edges:
-            if e[0] == curr[0]:
-                if e[0] not in [i[0] for i in visited]:
-                    for i in range(len(queue)):
-                        if e[2] + h[e[1]] < queue[i][1]:
-                            queue.insert(i, [e[1], e[2] + h[e[1]]])
-            elif e[1] == curr[0]:
-                if e[0] not in [i[0] for i in visited]:
-                    for i in range(len(queue)):
-                        if e[2] + h[e[1]] < queue[i][1]:
-                            queue.insert(i, [e[0], e[2] + h[e[1]]])
-        visited.append(curr)
-        queue.pop(0)
+            if e[0] == curr and e[1] not in partial:
+                tmp = list(partial)
+                tmp[0] = list(partial[0])
+                tmp[0].append(e[1])
+                tmp[1] += e[2] + h[e[1]]
+                # print(f"curr: {curr}, tmp: {tmp}, partial: {partial}\n")
+                added = False
+                for i in range(len(queue)):
+                    if cost + e[2] + h[e[1]] < queue[i][1]:
+                        queue.insert(i, tmp)
+                        added = True
+                        break
+                if not added:
+                    queue.append(tmp)
+            elif e[1] == curr and e[0] not in partial:
+                tmp = list(partial)
+                tmp[0] = list(partial[0])
+                tmp[0].append(e[0])
+                tmp[1] += e[2] + h[e[0]]
+                # print(f"curr: {curr}, tmp: {tmp}, partial: {partial}\n")
+                added = False
+                for i in range(len(queue)):
+                    if cost + e[2] + h[e[1]] < queue[i][1]:
+                        queue.insert(i, tmp)
+                        added = True
+                        break
+                if not added:
+                    queue.append(tmp)
     return "unable to find"
 
 
