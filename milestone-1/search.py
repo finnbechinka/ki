@@ -1,6 +1,3 @@
-from asyncio.windows_events import INFINITE
-
-
 node_names = [
     "Augsburg",
     "Erfurt",
@@ -15,19 +12,21 @@ node_names = [
 ]
 # format: node, node, cost
 edges = [
+    [8, 1, 186],
+    [2, 8, 217],
+    [8, 6, 103],
     [2, 4, 173],
     [2, 5, 85],
-    [2, 8, 217],
     [5, 3, 80],
     [3, 0, 250],
     [0, 9, 84],
-    [8, 1, 186],
-    [8, 6, 103],
     [6, 9, 167],
     [6, 7, 183],
     [4, 9, 502],
 ]
+
 heuristics = [0, 400, 100, 10, 460, 200, 537, 300, 170, 0]
+heuristics_fixed = [0, 400, 100, 10, 460, 200, 160, 300, 170, 0]
 
 
 def index_to_name(list):
@@ -45,31 +44,45 @@ for i in range(len(edges)):
 
 
 def dfs(start=8, end=9):
+    max_entries = 0
+    loops = 0
+
     visited = []
     stack = [start]
     while len(stack) > 0:
-        print(f"--\n{index_to_name(stack)}, {index_to_name(visited)}\n--")
-        if stack[0] == end:
-            return "found"
-        visited.append(stack[0])
+        loops += 1
+        if len(stack) > max_entries:
+            max_entries = len(stack)
+
+        print(f"--\nstack: {index_to_name(stack)}, \nvisited: {index_to_name(visited)}\n--")
+        curr = stack.pop(0)
+        if curr == end:
+            return {"status": "found", "max_entries": max_entries, "loops": loops}
+        visited.append(curr)
         for e in edges:
-            if e[0] == stack[0]:
+            if e[0] == curr:
                 if e[1] not in visited:
-                    stack.insert(1, e[1])
-            elif e[1] == stack[0]:
+                    stack.insert(0, e[1])
+            elif e[1] == curr:
                 if e[0] not in visited:
-                    stack.insert(1, e[0])
-        stack.pop(0)
-    return "unable to find"
+                    stack.insert(0, e[0])
+    return {"status": "not found", "max_entries": max_entries, "loops": loops}
 
 
 def bfs(start=8, end=9):
+    max_entries = 0
+    loops = 0
+
     visited = []
     queue = [start]
     while len(queue) > 0:
-        print(f"--\n{index_to_name(queue)}, {index_to_name(visited)}\n--")
+        loops += 1
+        if len(queue) > max_entries:
+            max_entries = len(queue)
+
+        print(f"--\nqueue: {index_to_name(queue)}, \nvisited: {index_to_name(visited)}\n--")
         if queue[0] == end:
-            return "found"
+            return {"status": "found", "max_entries": max_entries, "loops": loops}
         visited.append(queue[0])
         for e in edges:
             if e[0] == queue[0]:
@@ -79,10 +92,13 @@ def bfs(start=8, end=9):
                 if e[0] not in visited:
                     queue.append(e[0])
         queue.pop(0)
-    return "unable to find"
+    return {"status": "not found", "max_entries": max_entries, "loops": loops}
 
 
 def astar(start=8, end=9, h=heuristics):
+    max_entries = 0
+    loops = 0
+
     # node, cost to get to node
     queue = [
         [
@@ -92,18 +108,24 @@ def astar(start=8, end=9, h=heuristics):
             h[start],
         ]
     ]
-    i = 0
-    while len(queue) > 0 and i < 50:
-        i += 1
-        print(f"--\n{queue}\n--")
+    while len(queue) > 0:
+        loops += 1
+        if len(queue) > max_entries:
+            max_entries = len(queue)
+        # print(queue)
+        print("--\n[")
+        for i in range(len(queue)):
+            print(f"{index_to_name(queue[i][0])},")
+        print("]\n--")
         partial = queue.pop(0)
         curr = partial[0][len(partial[0]) - 1]
         cost = partial[1]
         # print(f"{partial} --- {curr}")
         if curr == end:
-            return "found"
+            return {"status": "found", "max_entries": max_entries, "loops": loops}
+
         for e in edges:
-            if e[0] == curr and e[1] not in partial:
+            if e[0] == curr and e[1] not in partial[0]:
                 tmp = list(partial)
                 tmp[0] = list(partial[0])
                 tmp[0].append(e[1])
@@ -118,7 +140,7 @@ def astar(start=8, end=9, h=heuristics):
                         break
                 if not added:
                     queue.append(tmp)
-            elif e[1] == curr and e[0] not in partial:
+            elif e[1] == curr and e[0] not in partial[0]:
                 tmp = list(partial)
                 tmp[0] = list(partial[0])
                 tmp[0].append(e[0])
@@ -133,9 +155,10 @@ def astar(start=8, end=9, h=heuristics):
                         break
                 if not added:
                     queue.append(tmp)
-    return "unable to find"
+    return {"status": "not found", "max_entries": max_entries, "loops": loops}
 
 
-print(f"dfs: {dfs()}")
-print(f"bfs: {bfs()}")
-print(f"A*: {astar()}")
+print(f"depth-first-search: {dfs()}")
+print(f"breadth-first-search: {bfs()}")
+print(f"A* erroneous heuristics: {astar()}")
+print(f"A* corrected heuristics: {astar(h=heuristics_fixed)}")
