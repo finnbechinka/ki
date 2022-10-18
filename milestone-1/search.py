@@ -89,7 +89,7 @@ def astar(start=8, end=9, h=heuristics):
             [
                 start,
             ],
-            0,
+            h[start],
         ]
     ]
     i = 0
@@ -108,6 +108,7 @@ def astar(start=8, end=9, h=heuristics):
                 tmp[0] = list(partial[0])
                 tmp[0].append(e[1])
                 tmp[1] += e[2] + h[e[1]]
+                tmp[1] -= h[e[0]]
                 # print(f"curr: {curr}, tmp: {tmp}, partial: {partial}\n")
                 added = False
                 for i in range(len(queue)):
@@ -122,6 +123,7 @@ def astar(start=8, end=9, h=heuristics):
                 tmp[0] = list(partial[0])
                 tmp[0].append(e[0])
                 tmp[1] += e[2] + h[e[0]]
+                tmp[1] -= h[e[1]]
                 # print(f"curr: {curr}, tmp: {tmp}, partial: {partial}\n")
                 added = False
                 for i in range(len(queue)):
