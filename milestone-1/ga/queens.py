@@ -1,5 +1,6 @@
 from json.encoder import INFINITY
 import random
+from socket import gaierror
 
 
 def start():
@@ -14,18 +15,29 @@ def start():
 
 def crossover(mp):
     p_cross = 0.6
-    children = []
-    for i in range(len(mp)):
+    new_pop = []
+    while len(new_pop) < len(mp):
+        g_a = random.randint(0, len(mp) - 1)
+        while True:
+            g_b = random.randint(0, len(mp) - 1)
+            if g_b != g_a:
+                break
         if random.random() < p_cross:
-            print("cross")
+            crossover_point = random.randint(1, (len(mp[0]) - 2))
+            old_g_a = mp[g_a].copy()
+            old_g_b = mp[g_b].copy()
+            new_g_a = old_g_a[0:crossover_point] + old_g_b[crossover_point : (len(mp[0]))]
+            new_g_b = old_g_b[0:crossover_point] + old_g_a[crossover_point : (len(mp[0]))]
+            new_pop.extend([new_g_a, new_g_b])
         else:
-            print("no cross")
+            new_pop.extend([mp[g_a], mp[g_b]])
+    return new_pop
 
 
 def selection(pop, fit):
     tournament_size = 3
     tournament_count = len(pop)
-    matinpool = []
+    matingpool = []
     for i in range(tournament_count):
         tournament = []
         for j in range(tournament_size):
@@ -35,8 +47,8 @@ def selection(pop, fit):
         for k in range(tournament_size):
             if fit[tournament[k]] < best_fit:
                 best_index = tournament[k]
-        matinpool.append(pop[best_index])
-    return matinpool
+        matingpool.append(pop[best_index])
+    return matingpool
 
 
 def generate_population(n=10):
