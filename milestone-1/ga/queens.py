@@ -20,6 +20,7 @@ def start(n, size, p_cross, p_mut, generations):
         mp = selection(pop, fit, size)
         new_pop = crossover(mp, p_cross)
         pop = mutation(new_pop, p_mut)
+
     individual = pop[fit.index(min(fit))]
     return {
         "success": False,
@@ -35,10 +36,7 @@ def mutation(pop, p_mut=0.01):
     for i in mutated_pop:
         for g in i:
             if random.random() <= p_mut:
-                if g == 0:
-                    g = 1
-                if g == 1:
-                    g = 0
+                g = 1 - g
     return mutated_pop
 
 
@@ -46,16 +44,13 @@ def crossover(mp, p_cross=0.6):
     new_pop = []
     while len(new_pop) < len(mp):
         g_a = random.randint(0, len(mp) - 1)
-        while True:
-            g_b = random.randint(0, len(mp) - 1)
-            if g_b != g_a:
-                break
+        g_b = random.randint(0, len(mp) - 1)
         if random.random() < p_cross:
             crossover_point = random.randint(1, (len(mp[0]) - 2))
             old_g_a = mp[g_a].copy()
             old_g_b = mp[g_b].copy()
-            new_g_a = old_g_a[0:crossover_point] + old_g_b[crossover_point : (len(mp[0]))]
-            new_g_b = old_g_b[0:crossover_point] + old_g_a[crossover_point : (len(mp[0]))]
+            new_g_a = old_g_a[:crossover_point] + old_g_b[crossover_point:]
+            new_g_b = old_g_b[:crossover_point] + old_g_a[crossover_point:]
             new_pop.extend([new_g_a, new_g_b])
         else:
             new_pop.extend([mp[g_a], mp[g_b]])
@@ -88,8 +83,8 @@ def generate_population(n=100):
     return population
 
 
-def fitness(pop):
-    decoded = bit_decoder(pop)
+def fitness(individual):
+    decoded = bit_decoder(individual)
     intersections = 0
     for q in range(len(decoded)):
         for x in range(len(decoded)):
@@ -99,16 +94,18 @@ def fitness(pop):
                 intersections += 1
     count = 0
     for i in range(len(decoded) - 1, -1, -1):
-        for j in range(0, len(decoded) - i - 1):
+        for j in range(1, len(decoded) - i):
             if decoded[i + j] == decoded[i] + j:
                 count += 1
-            if decoded[i - j] == decoded[i] + j:
+            if decoded[i + j] == decoded[i] - j:
                 count += 1
 
-        if count > 2:
-            intersections += count
+            if decoded[i - j] == decoded[i] + j:
+                count += 1
+            if decoded[i - j] == decoded[i] - j:
+                count += 1
+        intersections += count
         count = 0
-
     return intersections
 
 
@@ -134,7 +131,7 @@ for i in range(runs):
 sum = 0
 success_count = 0
 for r in results:
-    if r["success"]:
+    if r["success"] == True:
         success_count += 1
         sum += r["iterations"]
 
