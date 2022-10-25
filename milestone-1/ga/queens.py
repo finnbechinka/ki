@@ -4,7 +4,7 @@ import random
 
 def start():
     pop = generate_population()
-    for i in range(10_000):
+    for i in range(1_000):
         fit = []
         for j in range(len(pop)):
             fit.append(fitness(pop[j]))
@@ -94,13 +94,6 @@ def generate_population(n=100):
 def fitness(pop):
     decoded = bit_decoder(pop)
     intersections = 0
-    # for y in range(8):
-    #     queen_count = 0
-    #     for x in range(8):
-    #         if decoded[x] == y:
-    #             queen_count += 1
-    #     if queen_count > 1:
-    #         intersections += queen_count - 1
     for q in range(len(decoded)):
         for x in range(len(decoded)):
             if x == q:
@@ -108,11 +101,11 @@ def fitness(pop):
             if decoded[q] == decoded[x]:
                 intersections += 1
     count = 0
-    for i in range(len(decoded) - 1, 0, -1):
+    for i in range(len(decoded) - 1, -1, -1):
         for j in range(0, len(decoded) - i):
             if decoded[i + j] == j:
                 count += 1
-        for j in range(1, i - 1):
+        for j in range(1, i):
             if decoded[i - j] == j:
                 count += 1
         if count > 1:
