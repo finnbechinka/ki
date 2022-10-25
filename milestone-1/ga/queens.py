@@ -2,9 +2,9 @@ from json.encoder import INFINITY
 import random
 
 
-def start():
-    pop = generate_population()
-    for i in range(100):
+def start(n, size, p_cross, p_mut, generations):
+    pop = generate_population(n)
+    for i in range(generations):
         fit = []
         for j in range(len(pop)):
             fit.append(fitness(pop[j]))
@@ -17,9 +17,9 @@ def start():
                 "readable_indi": bit_decoder(individual),
                 "fitness": min(fit),
             }
-        mp = selection(pop, fit)
-        new_pop = crossover(mp)
-        pop = mutation(new_pop)
+        mp = selection(pop, fit, size)
+        new_pop = crossover(mp, p_cross)
+        pop = mutation(new_pop, p_mut)
     individual = pop[fit.index(min(fit))]
     return {
         "success": False,
@@ -30,8 +30,7 @@ def start():
     }
 
 
-def mutation(pop):
-    p_mut = 0.01
+def mutation(pop, p_mut=0.01):
     mutated_pop = pop.copy()
     for i in mutated_pop:
         for g in i:
@@ -43,8 +42,7 @@ def mutation(pop):
     return mutated_pop
 
 
-def crossover(mp):
-    p_cross = 0.6
+def crossover(mp, p_cross=0.6):
     new_pop = []
     while len(new_pop) < len(mp):
         g_a = random.randint(0, len(mp) - 1)
@@ -64,17 +62,16 @@ def crossover(mp):
     return new_pop
 
 
-def selection(pop, fit):
-    tournament_size = 3
+def selection(pop, fit, size=5):
     tournament_count = len(pop)
     matingpool = []
     for i in range(tournament_count):
         tournament = []
-        for j in range(tournament_size):
+        for j in range(size):
             tournament.append(random.randint(0, len(pop) - 1))
         best_fit = INFINITY
         best_index = -1
-        for k in range(tournament_size):
+        for k in range(size):
             if fit[tournament[k]] < best_fit:
                 best_index = tournament[k]
         matingpool.append(pop[best_index])
@@ -122,4 +119,27 @@ def bit_decoder(bits):
     return result
 
 
-print(start())
+n = 10
+size = 3
+p_cross = 0.6
+p_mut = 0.01
+generations = 200
+runs = 1000
+results = []
+for i in range(runs):
+    result = start(n, size, p_cross, p_mut, generations)
+    print(result)
+    results.append(result)
+
+sum = 0
+success_count = 0
+for r in results:
+    if r["success"]:
+        success_count += 1
+        sum += r["iterations"]
+
+aes = sum / success_count
+
+sr = success_count / runs
+
+print(f"AES: {aes}, SR: {sr}, params: n={n}, tournament size={size}, p_cross={p_cross}, p_mut={p_mut}")
