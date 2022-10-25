@@ -4,13 +4,18 @@ import random
 
 def start():
     pop = generate_population()
-    for i in range(1):
+    for i in range(100_000):
         fit = []
         for j in range(len(pop)):
             fit.append(fitness(pop[j]))
+        if min(fit) == 0:
+            individual = pop[fit.index(min(fit))]
+            return {"success": True, "individual": individual, "fitness": min(fit)}
         mp = selection(pop, fit)
         new_pop = crossover(mp)
-        mutation(new_pop)
+        pop = mutation(new_pop)
+    individual = pop[fit.index(min(fit))]
+    return {"success": False, "individual": individual, "fitness": min(fit)}
 
 
 def mutation(pop):
@@ -103,4 +108,4 @@ def bit_decoder(bits):
     return result
 
 
-start()
+print(start())
