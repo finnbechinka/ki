@@ -12,7 +12,7 @@ def start():
             individual = pop[fit.index(min(fit))]
             return {
                 "success": True,
-                "iterations": i,
+                "iterations": i + 1,
                 "individual": individual,
                 "readable_indi": bit_decoder(individual),
                 "fitness": min(fit),
@@ -23,7 +23,7 @@ def start():
     individual = pop[fit.index(min(fit))]
     return {
         "success": False,
-        "iterations": i,
+        "iterations": i + 1,
         "individual": individual,
         "readable_indi": bit_decoder(individual),
         "fitness": min(fit),
@@ -31,7 +31,7 @@ def start():
 
 
 def mutation(pop):
-    p_mut = 0.001
+    p_mut = 0.01
     mutated_pop = pop.copy()
     for i in mutated_pop:
         for g in i:
@@ -107,6 +107,17 @@ def fitness(pop):
                 continue
             if decoded[q] == decoded[x]:
                 intersections += 1
+    count = 0
+    for i in range(len(decoded) - 1, 0, -1):
+        for j in range(0, len(decoded) - i):
+            if decoded[i + j] == j:
+                count += 1
+        for j in range(1, i - 1):
+            if decoded[i - j] == j:
+                count += 1
+        if count > 1:
+            intersections += count
+        count = 0
 
     return intersections
 
