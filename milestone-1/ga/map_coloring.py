@@ -1,6 +1,5 @@
 from json.encoder import INFINITY
 import random
-from typing import Counter
 
 #            A:      B:         C:          D:        E:  F:
 neighbors = [[1, 2], [0, 2, 3], [0, 1, 3], [1, 2, 4], [3], [-1]]
@@ -8,7 +7,7 @@ neighbors = [[1, 2], [0, 2, 3], [0, 1, 3], [1, 2, 4], [3], [-1]]
 
 def start():
     pop = generate_population()
-    for i in range(1):
+    for i in range(100):
         fit = []
         for j in range(len(pop)):
             fit.append(fitness(pop[j]))
@@ -19,19 +18,25 @@ def start():
         new_pop = crossover(mp)
         pop = mutation(new_pop)
     individual = pop[fit.index(min(fit))]
-    return {"success": False, "individual": individual, "fitness": min(fit)}
+    return {"success": False, "individual": bit_decoder(individual), "fitness": min(fit)}
 
 
 def mutation(pop):
     p_mut = 0.01
     mutated_pop = pop.copy()
     for i in mutated_pop:
+        backup = i.copy()
+        # while True:
         for g in i:
             if random.random() <= p_mut:
                 if g == 0:
                     g = 1
                 if g == 1:
                     g = 0
+            # if max(bit_decoder(i)) > 4:
+            #     i = backup
+            # else:
+            #     break
     return mutated_pop
 
 
@@ -73,15 +78,18 @@ def selection(pop, fit):
     return matingpool
 
 
-def generate_population(n=10):
+def generate_population(n=100):
     population = []
     for i in range(n):
         individual = []
-        for i in range(3 * 6):
-            if i == 0 or i % 2 == 0:
+        while True:
+            for i in range(3 * 6):
                 individual.append(random.randint(0, 1))
+            if max(bit_decoder(individual)) > 4:
+                individual = []
             else:
-                individual.append(0)
+                break
+
         population.append(individual)
     return population
 
@@ -89,15 +97,17 @@ def generate_population(n=10):
 def fitness(pop):
     decoded = bit_decoder(pop)
     count = 0
-    print(decoded)
     for c in range(len(decoded)):
         country = decoded[c]
         for n in range(len(neighbors[c])):
             neighbor = decoded[neighbors[c][n]]
-            if neighbor[n] == country:
+            if neighbor == country:
                 count += 1
-        print(count)
-    return count
+    penalty = 0
+    if max(pop) > 3:
+        penalty += (max(pop) - 3) * 5
+
+    return count + (1 * penalty)
 
 
 def bit_decoder(bits):
