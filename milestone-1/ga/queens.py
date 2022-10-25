@@ -1,6 +1,5 @@
 from json.encoder import INFINITY
 import random
-from socket import gaierror
 
 
 def start():
@@ -10,7 +9,21 @@ def start():
         for j in range(len(pop)):
             fit.append(fitness(pop[j]))
         mp = selection(pop, fit)
-        crossover(mp)
+        new_pop = crossover(mp)
+        mutation(new_pop)
+
+
+def mutation(pop):
+    p_mut = 0.01
+    mutated_pop = pop.copy()
+    for i in mutated_pop:
+        for g in i:
+            if random.random() <= p_mut:
+                if g == 0:
+                    g = 1
+                if g == 1:
+                    g = 0
+    return mutated_pop
 
 
 def crossover(mp):
