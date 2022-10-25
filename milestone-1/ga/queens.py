@@ -4,22 +4,34 @@ import random
 
 def start():
     pop = generate_population()
-    for i in range(100_000):
+    for i in range(10_000):
         fit = []
         for j in range(len(pop)):
             fit.append(fitness(pop[j]))
         if min(fit) == 0:
             individual = pop[fit.index(min(fit))]
-            return {"success": True, "individual": individual, "fitness": min(fit)}
+            return {
+                "success": True,
+                "iterations": i,
+                "individual": individual,
+                "readable_indi": bit_decoder(individual),
+                "fitness": min(fit),
+            }
         mp = selection(pop, fit)
         new_pop = crossover(mp)
         pop = mutation(new_pop)
     individual = pop[fit.index(min(fit))]
-    return {"success": False, "individual": individual, "fitness": min(fit)}
+    return {
+        "success": False,
+        "iterations": i,
+        "individual": individual,
+        "readable_indi": bit_decoder(individual),
+        "fitness": min(fit),
+    }
 
 
 def mutation(pop):
-    p_mut = 0.01
+    p_mut = 0.001
     mutated_pop = pop.copy()
     for i in mutated_pop:
         for g in i:
@@ -69,7 +81,7 @@ def selection(pop, fit):
     return matingpool
 
 
-def generate_population(n=10):
+def generate_population(n=100):
     population = []
     for i in range(n):
         individual = []
@@ -82,21 +94,19 @@ def generate_population(n=10):
 def fitness(pop):
     decoded = bit_decoder(pop)
     intersections = 0
-    for y in range(8):
-        queen_count = 0
-        for x in range(8):
-            if decoded[x] == y:
-                queen_count += 1
-        if queen_count > 1:
-            intersections += queen_count - 1
-    # for x in range(8, 1, -1):
+    # for y in range(8):
     #     queen_count = 0
-    #     for y in range(1, 8 - x):
-    #         for d in range(0, y):
-    #             if decoded[x + d] == y:
-    #                 queen_count += 1
-    #         if queen_count > 1:
-    #             intersections += queen_count - 1
+    #     for x in range(8):
+    #         if decoded[x] == y:
+    #             queen_count += 1
+    #     if queen_count > 1:
+    #         intersections += queen_count - 1
+    for q in range(len(decoded)):
+        for x in range(len(decoded)):
+            if x == q:
+                continue
+            if decoded[q] == decoded[x]:
+                intersections += 1
 
     return intersections
 
