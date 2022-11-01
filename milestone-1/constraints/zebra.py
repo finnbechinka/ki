@@ -42,4 +42,27 @@ def consistent(value, var, assignment, csp):
     return True
 
 
-print(csp["values"])
+def next_var(assignment, csp):
+    for var in csp["variables"]:
+        if var not in assignment:
+            return var
+
+
+def bt_search(assignment, csp):
+    if complete(assignment):
+        return assignment
+
+    var = next_var(assignment, csp)
+
+    for value in csp["values"][csp["variables"].index(var)]:
+        print(value)
+        if consistent(value, var, assignment, csp):
+            assignment[var] = value
+            result = bt_search(assignment, csp)
+            if result:
+                return result
+            del assignment[var]
+    return False
+
+
+bt_search({}, csp)
