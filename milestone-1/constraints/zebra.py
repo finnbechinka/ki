@@ -1,3 +1,6 @@
+import timeit
+import random
+
 csp = {}
 csp["variables"] = [
     "gelb",
@@ -456,13 +459,24 @@ def bt_search(assignment, csp):
     return False
 
 
+print("start")
+random.shuffle(csp["variables"])
+n = 100
+times = timeit.timeit("bt_search({}, csp)", globals=globals(), number=n)
+
 result = bt_search({}, csp)
 
 print("result:")
-i = 0
+# i = 0
+haeuser = [[], [], [], [], []]
 for key, value in result.items():
-    i += 1
-    if i % 5 == 0:
-        print(f"{key}: {value}")
-    else:
-        print(f"{key}: {value}, ", end="")
+    haeuser[value].append(key)
+    # i += 1
+    # if i % 5 == 0:
+    #     print(f"{key}: {value}")
+    # else:
+    #     print(f"{key}: {value}, ", end="")
+for i in range(len(haeuser)):
+    print(f"Haus {i+1}: {haeuser[i]}")
+print(f"avg runtime: {(times/n):.4f}s")
+print("end")
