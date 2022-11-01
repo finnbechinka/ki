@@ -20,12 +20,33 @@ Wer trinkt Wasser? Wem gehört das Zebra?
 
 ## CSP
 ### Variablen
-$$FARBEN = \{gelb, blau, rot, grün, weiß\}$$
-$$NATIONALITÄTEN = \{norweger, ukrainer, engländer, japaner, spanier\}$$
-$$GETRÄNKE = \{wasser, tee, milch, kaffee, \text{o-saft}\}$$
-$$ZIGARETTEN = \{kools, chesterfield, old gold, parliament, lucky strike\}$$
-$$HAUSTIERE = \{fuchs, pferd, schnecken, zebra, hund\}$$
+$$FARBEN = \{gelb, blau, rot, grün, weiß\}$$  
+
+$$NATIONALITÄTEN = \{norweger, ukrainer, engländer, japaner, spanier\}$$  
+
+$$GETRÄNKE = \{wasser, tee, milch, kaffee, \text{o-saft}\}$$  
+
+$$ZIGARETTEN = \{kools, chesterfield, old gold, parliament, lucky strike\}$$  
+
+$$HAUSTIERE = \{fuchs, pferd, schnecken, zebra, hund\}$$  
+
 $$V = \{FARBEN, NATIONALITÄTEN, GETRÄNKE, ZIGARETTEN, HAUSTIERE\}$$
 ### Domänen
-Gleich für alle i:
-$$D_i = \{1,2,3,4,5\}$$
+Gleich für alle i; representiert die 5 Häuser:  
+
+$$D_i = \{1,2,3,4,5\}$$  
+
+### Constraints
+$$C = \{\newline
+gelb\neq blau,\newline
+gelb\neq rot,\newline
+gelb\neq grün,\newline
+gelb\neq weiß,\newline
+blau\neq rot,\newline
+blau\neq grün,\newline
+blau\neq grün,\newline
+blau\neq weiß,\newline
+rot\neq grün,\newline
+rot\neq weiß,\newline
+grün\neq weiß,\newline
+$$
