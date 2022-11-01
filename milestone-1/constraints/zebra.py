@@ -3,26 +3,26 @@ csp["variables"] = [
     "gelb",
     "blau",
     "rot",
-    "grün",
-    "weiß",
+    "gruen",
+    "weiss",
     "norweger",
     "ukrainer",
-    "engländer",
+    "englaender",
     "japaner",
     "spanier",
     "wasser",
     "tee",
     "milch",
     "kaffee",
-    "o-saft",
+    "osaft",
     "kools",
-    "chesterfield",
+    "chesterfields",
     "oldgold",
     "parliament",
     "luckystrikes",
     "fuchs",
     "pferd",
-    "schnecke",
+    "schnecken",
     "zebra",
     "hund",
 ]
@@ -38,11 +38,11 @@ def complete(assignment):
 
 
 def consistent(value, var, assignment, csp):
-    if var == "engländer" and "rot" in assignment:
+    if var == "englaender" and "rot" in assignment:
         if value != assignment["rot"]:
             return False
-    if var == "rot" and "engländer" in assignment:
-        if value != assignment["engländer"]:
+    if var == "rot" and "englaender" in assignment:
+        if value != assignment["englaender"]:
             return False
     if var == "spanier" and "hund" in assignment:
         if value != assignment["hund"]:
@@ -50,10 +50,10 @@ def consistent(value, var, assignment, csp):
     if var == "hund" and "spanier" in assignment:
         if value != assignment["spanier"]:
             return False
-    if var == "kaffee" and "grün" in assignment:
-        if value != assignment["grün"]:
+    if var == "kaffee" and "gruen" in assignment:
+        if value != assignment["gruen"]:
             return False
-    if var == "grün" and "kaffee" in assignment:
+    if var == "gruen" and "kaffee" in assignment:
         if value != assignment["kaffee"]:
             return False
     if var == "ukrainer" and "tee" in assignment:
@@ -62,11 +62,11 @@ def consistent(value, var, assignment, csp):
     if var == "tee" and "ukrainer" in assignment:
         if value != assignment["ukrainer"]:
             return False
-    if var == "grün" and "weiß" in assignment:
-        if value != assignment["weiß"] + 1:
+    if var == "gruen" and "weiss" in assignment:
+        if value != assignment["weiss"] - 1:
             return False
-    if var == "weiß" and "grün" in assignment:
-        if value + 1 != assignment["grün"]:
+    if var == "weiss" and "gruen" in assignment:
+        if value - 1 != assignment["gruen"]:
             return False
     if var == "oldgold" and "schnecken" in assignment:
         if value != assignment["schnecken"]:
@@ -86,35 +86,35 @@ def consistent(value, var, assignment, csp):
     if var == "norweger":
         if value != 0:
             return False
-    if var == "chesterfield" and "fuchs" in assignment:
+    if var == "chesterfields" and "fuchs" in assignment:
         if value != assignment["fuchs"] + 1 and value != assignment["fuchs"] - 1:
             return False
-    if var == "fuchs" and "chesterfield" in assignment:
-        if value != assignment["chesterfield"] + 1 and value != assignment["chesterfield"] - 1:
+    if var == "fuchs" and "chesterfields" in assignment:
+        if value + 1 != assignment["chesterfields"] and value - 1 != assignment["chesterfields"]:
             return False
     if var == "kools" and "pferd" in assignment:
         if value != assignment["pferd"] + 1 and value != assignment["pferd"] - 1:
             return False
     if var == "pferd" and "kools" in assignment:
-        if value != assignment["kools"] + 1 and value != assignment["kools"] - 1:
+        if value + 1 != assignment["kools"] and value - 1 != assignment["kools"]:
             return False
-    if var == "luckystrike" and "o-saft" in assignment:
-        if value != assignment["o-saft"]:
+    if var == "luckystrikes" and "osaft" in assignment:
+        if value != assignment["osaft"]:
             return False
-    if var == "o-saft" and "luckystrike" in assignment:
-        if value != assignment["luckystrike"]:
+    if var == "osaft" and "luckystrikes" in assignment:
+        if value != assignment["luckystrikes"]:
             return False
-    if var == "japaner" and "parliaments" in assignment:
-        if value != assignment["parliaments"]:
+    if var == "japaner" and "parliament" in assignment:
+        if value != assignment["parliament"]:
             return False
-    if var == "parliaments" and "japaner" in assignment:
+    if var == "parliament" and "japaner" in assignment:
         if value != assignment["japaner"]:
             return False
     if var == "norweger" and "blau" in assignment:
-        if value != assignment["blau"]:
+        if value != assignment["blau"] + 1 and value != assignment["blau"] - 1:
             return False
     if var == "blau" and "norweger" in assignment:
-        if value != assignment["norweger"]:
+        if value != assignment["norweger"] + 1 and value != assignment["norweger"] - 1:
             return False
     if var == "chesterfields" and "wasser" in assignment:
         if value != assignment["wasser"] + 1 and value != assignment["wasser"] - 1:
@@ -129,29 +129,29 @@ def consistent(value, var, assignment, csp):
     if var == "gelb" and "rot" in assignment:
         if value == assignment["rot"]:
             return False
-    if var == "gelb" and "grün" in assignment:
-        if value == assignment["grün"]:
+    if var == "gelb" and "gruen" in assignment:
+        if value == assignment["gruen"]:
             return False
-    if var == "gelb" and "weiß" in assignment:
-        if value == assignment["weiß"]:
+    if var == "gelb" and "weiss" in assignment:
+        if value == assignment["weiss"]:
             return False
     if var == "blau" and "rot" in assignment:
         if value == assignment["rot"]:
             return False
-    if var == "blau" and "grün" in assignment:
-        if value == assignment["grün"]:
+    if var == "blau" and "gruen" in assignment:
+        if value == assignment["gruen"]:
             return False
-    if var == "blau" and "weiß" in assignment:
-        if value == assignment["weiß"]:
+    if var == "blau" and "weiss" in assignment:
+        if value == assignment["weiss"]:
             return False
-    if var == "rot" and "grün" in assignment:
-        if value == assignment["grün"]:
+    if var == "rot" and "gruen" in assignment:
+        if value == assignment["gruen"]:
             return False
-    if var == "rot" and "weiß" in assignment:
-        if value == assignment["weiß"]:
+    if var == "rot" and "weiss" in assignment:
+        if value == assignment["weiss"]:
             return False
-    if var == "grün" and "weiß" in assignment:
-        if value == assignment["weiß"]:
+    if var == "gruen" and "weiss" in assignment:
+        if value == assignment["weiss"]:
             return False
 
     if var == "blau" and "gelb" in assignment:
@@ -160,36 +160,36 @@ def consistent(value, var, assignment, csp):
     if var == "rot" and "gelb" in assignment:
         if value == assignment["gelb"]:
             return False
-    if var == "grün" and "gelb" in assignment:
+    if var == "gruen" and "gelb" in assignment:
         if value == assignment["gelb"]:
             return False
-    if var == "weiß" and "gelb" in assignment:
+    if var == "weiss" and "gelb" in assignment:
         if value == assignment["gelb"]:
             return False
     if var == "rot" and "blau" in assignment:
         if value == assignment["blau"]:
             return False
-    if var == "grün" and "blau" in assignment:
+    if var == "gruen" and "blau" in assignment:
         if value == assignment["blau"]:
             return False
-    if var == "weiß" and "blau" in assignment:
+    if var == "weiss" and "blau" in assignment:
         if value == assignment["blau"]:
             return False
-    if var == "grün" and "rot" in assignment:
+    if var == "gruen" and "rot" in assignment:
         if value == assignment["rot"]:
             return False
-    if var == "weiß" and "rot" in assignment:
+    if var == "weiss" and "rot" in assignment:
         if value == assignment["rot"]:
             return False
-    if var == "weiß" and "grün" in assignment:
-        if value == assignment["grün"]:
+    if var == "weiss" and "gruen" in assignment:
+        if value == assignment["gruen"]:
             return False
 
     if var == "norweger" and "ukrainer" in assignment:
         if value == assignment["ukrainer"]:
             return False
-    if var == "norweger" and "engländer" in assignment:
-        if value == assignment["engländer"]:
+    if var == "norweger" and "englaender" in assignment:
+        if value == assignment["englaender"]:
             return False
     if var == "norweger" and "japaner" in assignment:
         if value == assignment["japaner"]:
@@ -197,8 +197,8 @@ def consistent(value, var, assignment, csp):
     if var == "norweger" and "spanier" in assignment:
         if value == assignment["spanier"]:
             return False
-    if var == "ukrainer" and "engländer" in assignment:
-        if value == assignment["engländer"]:
+    if var == "ukrainer" and "englaender" in assignment:
+        if value == assignment["englaender"]:
             return False
     if var == "ukrainer" and "japaner" in assignment:
         if value == assignment["japaner"]:
@@ -206,10 +206,10 @@ def consistent(value, var, assignment, csp):
     if var == "ukrainer" and "spanier" in assignment:
         if value == assignment["spanier"]:
             return False
-    if var == "engländer" and "japaner" in assignment:
+    if var == "englaender" and "japaner" in assignment:
         if value == assignment["japaner"]:
             return False
-    if var == "engländer" and "spanier" in assignment:
+    if var == "englaender" and "spanier" in assignment:
         if value == assignment["spanier"]:
             return False
     if var == "japaner" and "spanier" in assignment:
@@ -219,7 +219,7 @@ def consistent(value, var, assignment, csp):
     if var == "ukrainer" and "norweger" in assignment:
         if value == assignment["norweger"]:
             return False
-    if var == "engländer" and "norweger" in assignment:
+    if var == "englaender" and "norweger" in assignment:
         if value == assignment["norweger"]:
             return False
     if var == "japaner" and "norweger" in assignment:
@@ -228,7 +228,7 @@ def consistent(value, var, assignment, csp):
     if var == "spanier" and "norweger" in assignment:
         if value == assignment["norweger"]:
             return False
-    if var == "engländer" and "ukrainer" in assignment:
+    if var == "englaender" and "ukrainer" in assignment:
         if value == assignment["ukrainer"]:
             return False
     if var == "japaner" and "ukrainer" in assignment:
@@ -237,11 +237,11 @@ def consistent(value, var, assignment, csp):
     if var == "spanier" and "ukrainer" in assignment:
         if value == assignment["ukrainer"]:
             return False
-    if var == "japaner" and "engländer" in assignment:
-        if value == assignment["engländer"]:
+    if var == "japaner" and "englaender" in assignment:
+        if value == assignment["englaender"]:
             return False
-    if var == "spanier" and "engländer" in assignment:
-        if value == assignment["engländer"]:
+    if var == "spanier" and "englaender" in assignment:
+        if value == assignment["englaender"]:
             return False
     if var == "spanier" and "japaner" in assignment:
         if value == assignment["japaner"]:
@@ -256,8 +256,8 @@ def consistent(value, var, assignment, csp):
     if var == "wasser" and "kaffee" in assignment:
         if value == assignment["kaffee"]:
             return False
-    if var == "wasser" and "o-saft" in assignment:
-        if value == assignment["o-saft"]:
+    if var == "wasser" and "osaft" in assignment:
+        if value == assignment["osaft"]:
             return False
     if var == "tee" and "milch" in assignment:
         if value == assignment["milch"]:
@@ -265,17 +265,17 @@ def consistent(value, var, assignment, csp):
     if var == "tee" and "kaffee" in assignment:
         if value == assignment["kaffee"]:
             return False
-    if var == "tee" and "o-saft" in assignment:
-        if value == assignment["o-saft"]:
+    if var == "tee" and "osaft" in assignment:
+        if value == assignment["osaft"]:
             return False
     if var == "milch" and "kaffee" in assignment:
         if value == assignment["kaffee"]:
             return False
-    if var == "milch" and "o-saft" in assignment:
-        if value == assignment["o-saft"]:
+    if var == "milch" and "osaft" in assignment:
+        if value == assignment["osaft"]:
             return False
-    if var == "kaffee" and "o-saft" in assignment:
-        if value == assignment["o-saft"]:
+    if var == "kaffee" and "osaft" in assignment:
+        if value == assignment["osaft"]:
             return False
 
     if var == "tee" and "wasser" in assignment:
@@ -287,7 +287,7 @@ def consistent(value, var, assignment, csp):
     if var == "kaffee" and "wasser" in assignment:
         if value == assignment["wasser"]:
             return False
-    if var == "o-saft" and "wasser" in assignment:
+    if var == "osaft" and "wasser" in assignment:
         if value == assignment["wasser"]:
             return False
     if var == "milch" and "tee" in assignment:
@@ -296,21 +296,21 @@ def consistent(value, var, assignment, csp):
     if var == "kaffee" and "tee" in assignment:
         if value == assignment["tee"]:
             return False
-    if var == "o-saft" and "tee" in assignment:
+    if var == "osaft" and "tee" in assignment:
         if value == assignment["tee"]:
             return False
     if var == "kaffee" and "milch" in assignment:
         if value == assignment["milch"]:
             return False
-    if var == "o-saft" and "milch" in assignment:
+    if var == "osaft" and "milch" in assignment:
         if value == assignment["milch"]:
             return False
-    if var == "o-saft" and "kaffee" in assignment:
+    if var == "osaft" and "kaffee" in assignment:
         if value == assignment["kaffee"]:
             return False
 
-    if var == "kools" and "chesterfield" in assignment:
-        if value == assignment["chesterfield"]:
+    if var == "kools" and "chesterfields" in assignment:
+        if value == assignment["chesterfields"]:
             return False
     if var == "kools" and "oldgold" in assignment:
         if value == assignment["oldgold"]:
@@ -321,13 +321,13 @@ def consistent(value, var, assignment, csp):
     if var == "kools" and "luckystrikes" in assignment:
         if value == assignment["luckystrikes"]:
             return False
-    if var == "chesterfield" and "oldgold" in assignment:
+    if var == "chesterfields" and "oldgold" in assignment:
         if value == assignment["oldgold"]:
             return False
-    if var == "chesterfield" and "parliament" in assignment:
+    if var == "chesterfields" and "parliament" in assignment:
         if value == assignment["parliament"]:
             return False
-    if var == "chesterfield" and "luckystrikes" in assignment:
+    if var == "chesterfields" and "luckystrikes" in assignment:
         if value == assignment["luckystrikes"]:
             return False
     if var == "oldgold" and "parliament" in assignment:
@@ -340,7 +340,7 @@ def consistent(value, var, assignment, csp):
         if value == assignment["luckystrikes"]:
             return False
 
-    if var == "chesterfield" and "kools" in assignment:
+    if var == "chesterfields" and "kools" in assignment:
         if value == assignment["kools"]:
             return False
     if var == "oldgold" and "kools" in assignment:
@@ -352,14 +352,14 @@ def consistent(value, var, assignment, csp):
     if var == "luckystrikes" and "kools" in assignment:
         if value == assignment["kools"]:
             return False
-    if var == "oldgold" and "chesterfield" in assignment:
-        if value == assignment["chesterfield"]:
+    if var == "oldgold" and "chesterfields" in assignment:
+        if value == assignment["chesterfields"]:
             return False
-    if var == "parliament" and "chesterfield" in assignment:
-        if value == assignment["chesterfield"]:
+    if var == "parliament" and "chesterfields" in assignment:
+        if value == assignment["chesterfields"]:
             return False
-    if var == "luckystrikes" and "chesterfield" in assignment:
-        if value == assignment["chesterfield"]:
+    if var == "luckystrikes" and "chesterfields" in assignment:
+        if value == assignment["chesterfields"]:
             return False
     if var == "parliament" and "oldgold" in assignment:
         if value == assignment["oldgold"]:
@@ -374,8 +374,8 @@ def consistent(value, var, assignment, csp):
     if var == "fuchs" and "pferd" in assignment:
         if value == assignment["pferd"]:
             return False
-    if var == "fuchs" and "schnecke" in assignment:
-        if value == assignment["schnecke"]:
+    if var == "fuchs" and "schnecken" in assignment:
+        if value == assignment["schnecken"]:
             return False
     if var == "fuchs" and "zebra" in assignment:
         if value == assignment["zebra"]:
@@ -383,8 +383,8 @@ def consistent(value, var, assignment, csp):
     if var == "fuchs" and "hund" in assignment:
         if value == assignment["hund"]:
             return False
-    if var == "pferd" and "schnecke" in assignment:
-        if value == assignment["schnecke"]:
+    if var == "pferd" and "schnecken" in assignment:
+        if value == assignment["schnecken"]:
             return False
     if var == "pferd" and "zebra" in assignment:
         if value == assignment["zebra"]:
@@ -392,10 +392,10 @@ def consistent(value, var, assignment, csp):
     if var == "pferd" and "hund" in assignment:
         if value == assignment["hund"]:
             return False
-    if var == "schnecke" and "zebra" in assignment:
+    if var == "schnecken" and "zebra" in assignment:
         if value == assignment["zebra"]:
             return False
-    if var == "schnecke" and "hund" in assignment:
+    if var == "schnecken" and "hund" in assignment:
         if value == assignment["hund"]:
             return False
     if var == "zebra" and "hund" in assignment:
@@ -405,7 +405,7 @@ def consistent(value, var, assignment, csp):
     if var == "pferd" and "fuchs" in assignment:
         if value == assignment["fuchs"]:
             return False
-    if var == "schnecke" and "fuchs" in assignment:
+    if var == "schnecken" and "fuchs" in assignment:
         if value == assignment["fuchs"]:
             return False
     if var == "zebra" and "fuchs" in assignment:
@@ -414,7 +414,7 @@ def consistent(value, var, assignment, csp):
     if var == "hund" and "fuchs" in assignment:
         if value == assignment["fuchs"]:
             return False
-    if var == "schnecke" and "pferd" in assignment:
+    if var == "schnecken" and "pferd" in assignment:
         if value == assignment["pferd"]:
             return False
     if var == "zebra" and "pferd" in assignment:
@@ -423,11 +423,11 @@ def consistent(value, var, assignment, csp):
     if var == "hund" and "pferd" in assignment:
         if value == assignment["pferd"]:
             return False
-    if var == "zebra" and "schnecke" in assignment:
-        if value == assignment["schnecke"]:
+    if var == "zebra" and "schnecken" in assignment:
+        if value == assignment["schnecken"]:
             return False
-    if var == "hund" and "schnecke" in assignment:
-        if value == assignment["schnecke"]:
+    if var == "hund" and "schnecken" in assignment:
+        if value == assignment["schnecken"]:
             return False
     if var == "hund" and "zebra" in assignment:
         if value == assignment["zebra"]:
