@@ -37,16 +37,16 @@ Gleich für alle i; representiert die 5 Häuser:
 $$D_i = \{1,2,3,4,5\}$$  
 
 ### Constraints
-$$C = \{\newline
-gelb\neq blau,\newline
-gelb\neq rot,\newline
-gelb\neq grün,\newline
-gelb\neq weiß,\newline
-blau\neq rot,\newline
-blau\neq grün,\newline
-blau\neq grün,\newline
-blau\neq weiß,\newline
-rot\neq grün,\newline
-rot\neq weiß,\newline
-grün\neq weiß,\newline
-$$
+$$C = \{\\
+gelb\neq blau,\\
+gelb\neq rot,\\
+gelb\neq grün,\\
+gelb\neq weiß,\\
+blau\neq rot,\\
+blau\neq grün,\\
+blau\neq grün,\\
+blau\neq weiß,\\
+rot\neq grün,\\
+rot\neq weiß,\\
+grün\neq weiß,\\
+\}$$
