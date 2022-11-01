@@ -37,7 +37,8 @@ Gleich für alle i; representiert die 5 Häuser:
 $$D_i = \{1,2,3,4,5\}$$  
 
 ### Constraints
-$$C = \{\\
+$$C = \{\\$$
+$$
 gelb\neq blau,\\
 gelb\neq rot,\\
 gelb\neq grün,\\
@@ -48,7 +49,8 @@ blau\neq weiß,\\
 rot\neq grün,\\
 rot\neq weiß,\\
 grün\neq weiß,\\
-
+$$
+$$
 norweger\neq ukrainer,\\
 norweger\neq engländer,\\
 norweger\neq japaner,\\
@@ -59,7 +61,8 @@ ukrainer\neq spanier,\\
 engländer\neq japaner,\\
 engländer\neq spanier,\\
 japaner\neq spanier,\\
-
+$$
+$$
 wasser\neq tee,\\
 wasser\neq milch,\\
 wasser\neq kaffee,\\
@@ -70,7 +73,8 @@ tee\neq \text{o-saft},\\
 milch\neq kaffee,\\
 milch\neq \text{o-saft},\\
 kaffee\neq \text{o-saft},\\
-
+$$
+$$
 kools\neq chesterfield,\\
 kools\neq old gold,\\
 kools\neq parliament,\\
@@ -81,7 +85,8 @@ chesterfield\neq lucky strike,\\
 old gold\neq parliament,\\
 old gold\neq lucky strike,\\
 parliament\neq lucky strike,\\
-
+$$
+$$
 fuchs\neq pferd,\\
 fuchs\neq schnecke,\\
 fuchs\neq zebra,\\
@@ -92,4 +97,5 @@ pferd\neq hund,\\
 schnecke\neq zebra,\\
 schnecke\neq hund,\\
 zebra\neq hund,\\
-\}$$
+$$
+$$\}$$
