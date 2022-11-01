@@ -28,7 +28,7 @@ $$GETRÄNKE = \{wasser, tee, milch, kaffee, \text{o-saft}\}$$
 
 $$ZIGARETTEN = \{kools, chesterfield, old gold, parliament, lucky strike\}$$  
 
-$$HAUSTIERE = \{fuchs, pferd, schnecken, zebra, hund\}$$  
+$$HAUSTIERE = \{fuchs, pferd, schnecke, zebra, hund\}$$  
 
 $$V = \{FARBEN, NATIONALITÄTEN, GETRÄNKE, ZIGARETTEN, HAUSTIERE\}$$
 ### Domänen
@@ -44,9 +44,52 @@ gelb\neq grün,\\
 gelb\neq weiß,\\
 blau\neq rot,\\
 blau\neq grün,\\
-blau\neq grün,\\
 blau\neq weiß,\\
 rot\neq grün,\\
 rot\neq weiß,\\
 grün\neq weiß,\\
+
+norweger\neq ukrainer,\\
+norweger\neq engländer,\\
+norweger\neq japaner,\\
+norweger\neq spanier,\\
+ukrainer\neq engländer,\\
+ukrainer\neq japaner,\\
+ukrainer\neq spanier,\\
+engländer\neq japaner,\\
+engländer\neq spanier,\\
+japaner\neq spanier,\\
+
+wasser\neq tee,\\
+wasser\neq milch,\\
+wasser\neq kaffee,\\
+wasser\neq \text{o-saft},\\
+tee\neq milch,\\
+tee\neq kaffee,\\
+tee\neq \text{o-saft},\\
+milch\neq kaffee,\\
+milch\neq \text{o-saft},\\
+kaffee\neq \text{o-saft},\\
+
+kools\neq chesterfield,\\
+kools\neq old gold,\\
+kools\neq parliament,\\
+kools\neq lucky strike,\\
+chesterfield\neq old gold,\\
+chesterfield\neq parliament,\\
+chesterfield\neq lucky strike,\\
+old gold\neq parliament,\\
+old gold\neq lucky strike,\\
+parliament\neq lucky strike,\\
+
+fuchs\neq pferd,\\
+fuchs\neq schnecke,\\
+fuchs\neq zebra,\\
+fuchs\neq hund,\\
+pferd\neq schnecke,\\
+pferd\neq zebra,\\
+pferd\neq hund,\\
+schnecke\neq zebra,\\
+schnecke\neq hund,\\
+zebra\neq hund,\\
 \}$$
