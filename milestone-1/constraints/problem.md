@@ -1,20 +1,21 @@
 ## Rätsel
 ```
-01. Der Engländer lebt im roten Haus.
-02. Der Spanier hat einen Hund.
-03. Der Ukrainer trinkt gern Tee.
-04. Das grüne Haus steht (direkt) links vom weißen Haus.
-05. Im grünen Haus wird Kaffee getrunken.
-06. Die Person, die Gurken isst, hat einen Leguan
-07. Der Bewohner des mittleren Hauses trinkt Milch.
-08. Der Bewohner des gelben Hauses mag Pizza.
-09. Der Norweger wohnt im ersten Haus.
-10. Der Tofu-Esser wohnt neben der Person mit dem Papagei.
-11. Dr Mann mit dem Pferd lebt neben der Person, die Pizza mag.
-12. Der Erdbeeren-Esser trinkt Orangensaft.
-13. Der Norweger wohnt neben dem blauen Haus.
-14. Der Japaner isst gerne Kebab.
-15. Der Tofu-Esser hat einen Nachbarn, der Wasser trinkt.
+1. Es gibt fünf Häuser.
+2. Der Engländer wohnt im roten Haus.
+3. Der Spanier hat einen Hund.
+4. Kaffee wird im grünen Haus getrunken.
+5. Der Ukrainer trinkt Tee.
+6. Das grüne Haus ist direkt links vom weißen Haus.
+7. Der Raucher von Old-Gold-Zigaretten hält Schnecken als Haustiere.
+8. Die Zigaretten der Marke Kools werden im gelben Haus geraucht.
+9. Milch wird im mittleren Haus getrunken.
+10. Der Norweger wohnt im ersten Haus.
+11. Der Mann, der Chesterfields raucht, wohnt neben dem Mann mit dem Fuchs.
+12. Die Marke Kools wird geraucht im Haus neben dem Haus mit dem Pferd.
+13. Der Lucky-Strike-Raucher trinkt am liebsten Orangensaft.
+14. Der Japaner raucht Zigaretten der Marke Parliaments.
+15. Der Norweger wohnt neben dem blauen Haus.
+16. Der Chesterfields-Raucher hat einen Nachbarn, der Wasser trinkt.
 Wer trinkt Wasser? Wem gehört das Zebra? 
 ```
 
