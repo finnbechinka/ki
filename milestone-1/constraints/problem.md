@@ -34,11 +34,28 @@ $$V = \{FARBEN, NATIONALITÄTEN, GETRÄNKE, ZIGARETTEN, HAUSTIERE\}$$
 ### Domänen
 Gleich für alle i; representiert die 5 Häuser:  
 
-$$D_i = \{1,2,3,4,5\}$$  
+$$D_i = \{0,1,2,3,4\}$$  
 
 ### Constraints
 $$
 C = \{
+$$
+
+$$
+engländer = rot,\\
+spanier = hund,\\
+ukrainer = tee,\\
+grün = weiß + 1 ,\\
+old gold = schnecken,\\
+kools = gelb,\\
+milch = 2,\\
+norweger = 0,\\
+chesterfield = (fuchs + 1 || fuchs - 1),\\
+kools = (pferd + 1 || pferd - 1),\\
+lucky strike = \text{o-saft},\\
+japaner = parliaments,\\
+norweger = blau,\\
+chesterfields = (wasser + 1 || wasser - 1),\\
 $$
 
 $$
@@ -103,7 +120,7 @@ pferd\neq zebra,\\
 pferd\neq hund,\\
 schnecke\neq zebra,\\
 schnecke\neq hund,\\
-zebra\neq hund,\\
+zebra\neq hund
 $$
 
 $$
