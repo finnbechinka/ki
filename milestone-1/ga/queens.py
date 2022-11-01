@@ -44,13 +44,16 @@ def crossover(mp, p_cross=0.6):
     new_pop = []
     while len(new_pop) < len(mp):
         g_a = random.randint(0, len(mp) - 1)
-        g_b = random.randint(0, len(mp) - 1)
+        while True:
+            g_b = random.randint(0, len(mp) - 1)
+            if g_b != g_a:
+                break
         if random.random() < p_cross:
             crossover_point = random.randint(1, (len(mp[0]) - 2))
             old_g_a = mp[g_a].copy()
             old_g_b = mp[g_b].copy()
-            new_g_a = old_g_a[:crossover_point] + old_g_b[crossover_point:]
-            new_g_b = old_g_b[:crossover_point] + old_g_a[crossover_point:]
+            new_g_a = old_g_a[0:crossover_point] + old_g_b[crossover_point : (len(mp[0]))]
+            new_g_b = old_g_b[0:crossover_point] + old_g_a[crossover_point : (len(mp[0]))]
             new_pop.extend([new_g_a, new_g_b])
         else:
             new_pop.extend([mp[g_a], mp[g_b]])
@@ -92,20 +95,20 @@ def fitness(individual):
                 continue
             if decoded[q] == decoded[x]:
                 intersections += 1
-    count = 0
-    for i in range(len(decoded) - 1, -1, -1):
-        for j in range(1, len(decoded) - i):
-            if decoded[i + j] == decoded[i] + j:
-                count += 1
-            if decoded[i + j] == decoded[i] - j:
-                count += 1
-
-            if decoded[i - j] == decoded[i] + j:
-                count += 1
-            if decoded[i - j] == decoded[i] - j:
-                count += 1
-        intersections += count
-        count = 0
+    # count = 0
+    # for i in range(len(decoded) - 1, -1, -1):
+    #     for j in range(1, len(decoded) - i):
+    #         if decoded[i + j] == decoded[i] + j:
+    #             count += 1
+    #         if decoded[i + j] == decoded[i] - j:
+    #             count += 1
+    #     for j in range(1, i):
+    #         if decoded[i - j] == decoded[i] + j:
+    #             count += 1
+    #         if decoded[i - j] == decoded[i] - j:
+    #             count += 1
+    #     intersections += count
+    #     count = 0
     return intersections
 
 
@@ -121,11 +124,11 @@ size = 3
 p_cross = 0.6
 p_mut = 0.01
 generations = 200
-runs = 1000
+runs = 100
 results = []
 for i in range(runs):
     result = start(n, size, p_cross, p_mut, generations)
-    print(result)
+    # print(result)
     results.append(result)
 
 sum = 0
