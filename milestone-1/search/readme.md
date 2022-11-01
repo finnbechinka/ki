@@ -1,5 +1,6 @@
+# Meilenstein 1.1: Problemlösen, Suche
+(Abgabe: 19.10.22)
 ## Suche
-
 Betrachten Sie folgende Landkarte und Restwegschätzungen:
 <img src="images/MapGermanyGraph.png" alt="MapGermanyGraph" width="40%"/>
 
