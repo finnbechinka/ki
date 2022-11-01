@@ -18,6 +18,14 @@
 16. Der Chesterfields-Raucher hat einen Nachbarn, der Wasser trinkt.
 Wer trinkt Wasser? Wem gehört das Zebra? 
 ```
+### Lösung
+| Haus | 0 | 1 | 2 | 3 | 4 |
+|------|---|---|---|---|---|
+| Farbe | gelb | blau | rot | grün | weiß |
+| Nationalität | Norweger | Ukrainer | Engländer | Japaner | Spanier |
+| Getränk | __Wasser__ | Tee | Milch | Kaffee | O-Saft |
+| Zigaretten | Kools | Chesterfield | Old Gold | Parliament | Lucky Strikes |
+| Haustier | Fuchs | Pferd | Schnecken | __Zebra__ | Hund |
 
 ## CSP
 ### Variablen
