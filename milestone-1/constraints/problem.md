@@ -37,7 +37,9 @@ Gleich für alle i; representiert die 5 Häuser:
 $$D_i = \{1,2,3,4,5\}$$  
 
 ### Constraints
-$C = \{\\$
+$$
+C = \{\\
+$$
 
 $$
 gelb\neq blau,\\
@@ -104,4 +106,6 @@ schnecke\neq hund,\\
 zebra\neq hund,\\
 $$
 
-$\}\\$
+$$
+\}\\
+$$
