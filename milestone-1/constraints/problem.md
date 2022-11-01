@@ -38,6 +38,7 @@ $$D_i = \{1,2,3,4,5\}$$
 
 ### Constraints
 $$C = \text{\{}$$
+
 $$
 gelb\neq blau,\\
 gelb\neq rot,\\
@@ -50,6 +51,7 @@ rot\neq grün,\\
 rot\neq weiß,\\
 grün\neq weiß,\\
 $$
+
 $$
 norweger\neq ukrainer,\\
 norweger\neq engländer,\\
@@ -62,6 +64,7 @@ engländer\neq japaner,\\
 engländer\neq spanier,\\
 japaner\neq spanier,\\
 $$
+
 $$
 wasser\neq tee,\\
 wasser\neq milch,\\
@@ -74,6 +77,7 @@ milch\neq kaffee,\\
 milch\neq \text{o-saft},\\
 kaffee\neq \text{o-saft},\\
 $$
+
 $$
 kools\neq chesterfield,\\
 kools\neq old gold,\\
@@ -86,6 +90,7 @@ old gold\neq parliament,\\
 old gold\neq lucky strike,\\
 parliament\neq lucky strike,\\
 $$
+
 $$
 fuchs\neq pferd,\\
 fuchs\neq schnecke,\\
@@ -98,4 +103,5 @@ schnecke\neq zebra,\\
 schnecke\neq hund,\\
 zebra\neq hund,\\
 $$
+
 $$\text{\}}$$
