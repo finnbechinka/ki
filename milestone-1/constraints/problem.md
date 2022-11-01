@@ -44,6 +44,7 @@ $$
 $$
 engländer = rot,\\
 spanier = hund,\\
+kaffee = grün,\\
 ukrainer = tee,\\
 grün = weiß + 1 ,\\
 old gold = schnecken,\\
