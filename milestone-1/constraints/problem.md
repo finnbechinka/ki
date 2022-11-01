@@ -98,5 +98,4 @@ schnecke\neq zebra,\\
 schnecke\neq hund,\\
 zebra\neq hund,\\
 $$
-
 $$\}$$
