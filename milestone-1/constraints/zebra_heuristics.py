@@ -480,15 +480,9 @@ result = bt_search({}, csp)
 
 if result:
     print("result:")
-    # i = 0
     haeuser = [[], [], [], [], []]
     for key, value in result.items():
         haeuser[value].append(key)
-        # i += 1
-        # if i % 5 == 0:
-        #     print(f"{key}: {value}")
-        # else:
-        #     print(f"{key}: {value}, ", end="")
     for i in range(len(haeuser)):
         print(f"Haus {i+1}: {haeuser[i]}")
 else:
