@@ -463,16 +463,10 @@ def bt_search(assignment, csp):
                 return result
             del assignment[var]
 
-        # print("-")
-        # print(csp["values"][csp["variables"].index(var)])
         removed.append(csp["values"][csp["variables"].index(var)][csp["values"][csp["variables"].index(var)].index(value)])
         csp["values"][csp["variables"].index(var)].remove(value)
-        # print(removed)
-        # print(csp["values"][csp["variables"].index(var)])
-    # print(csp["values"][csp["variables"].index(var)])
     for v in removed:
         csp["values"][csp["variables"].index(var)].append(v)
-    # print(csp["values"][csp["variables"].index(var)])
 
     return False
 
