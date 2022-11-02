@@ -460,23 +460,26 @@ def bt_search(assignment, csp):
 
 
 print("start")
-n = 100
-time = 0
+n = 10
+runtime_total = 0
 for i in range(n):
+    print(f"{i + 1}:")
     random.shuffle(csp["variables"])
-    time += timeit.timeit("bt_search({}, csp)", globals=globals(), number=1)
+    start = timeit.default_timer()
+    result = bt_search({}, csp)
+    end = timeit.default_timer()
+    runtime = end - start
+    runtime_total += runtime
+    print(f"runtime: {(runtime):.4f}s")
+    if result:
+        print("result:")
+        haeuser = [[], [], [], [], []]
+        for key, value in result.items():
+            haeuser[value].append(key)
+        for j in range(len(haeuser)):
+            print(f"Haus {j+1}: {haeuser[j]}")
+    else:
+        print("failure")
 
-random.shuffle(csp["variables"])
-result = bt_search({}, csp)
-
-if result:
-    print("result:")
-    haeuser = [[], [], [], [], []]
-    for key, value in result.items():
-        haeuser[value].append(key)
-    for i in range(len(haeuser)):
-        print(f"Haus {i+1}: {haeuser[i]}")
-else:
-    print("failure")
-print(f"avg runtime: {(time/n):.4f}s")
+print(f"avg runtime: {(runtime_total/n):.4f}s")
 print("end")
