@@ -454,8 +454,9 @@ def bt_search(assignment, csp):
         return assignment
     var = next_var(assignment, csp)
     removed = []
-    while len(csp["values"][csp["variables"].index(var)]) > 0:
-        value = csp["values"][csp["variables"].index(var)][0]
+    domain = csp["values"][csp["variables"].index(var)]
+    while len(domain) > 0:
+        value = domain[0]
         if consistent(value, var, assignment, csp):
             assignment[var] = value
             result = bt_search(assignment, csp)
@@ -463,10 +464,10 @@ def bt_search(assignment, csp):
                 return result
             del assignment[var]
 
-        removed.append(csp["values"][csp["variables"].index(var)][csp["values"][csp["variables"].index(var)].index(value)])
-        csp["values"][csp["variables"].index(var)].remove(value)
+        removed.append(domain[0])
+        domain.remove(value)
     for v in removed:
-        csp["values"][csp["variables"].index(var)].append(v)
+        domain.append(v)
 
     return False
 
