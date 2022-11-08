@@ -77,4 +77,4 @@ $P(o)=4\div4=1$
 
 x1(x2(x3(o, o, m), m), o)  
 
-![Alt text](../../../../../../../../C:/Users/finn-/Documents/code/ki/milestone-1/decision/Screenshot_73.png)
+![tree](tree.png)
