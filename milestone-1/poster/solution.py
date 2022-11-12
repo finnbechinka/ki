@@ -32,7 +32,9 @@ csp = {}
 csp["variables"] = lectures
 csp["values"] = []
 for i in range(len(csp["variables"])):
-    csp["values"].append(slots.copy())
+    tmp = slots.copy()
+    random.shuffle(tmp)
+    csp["values"].append(tmp)
 
 
 def complete(assignment):
@@ -71,10 +73,11 @@ print("start")
 n = 1
 runtime_total = 0
 for i in range(n):
+    random.shuffle(csp["variables"])
     result = bt_search({}, csp)
     if result:
         print("result:")
-        [print(x) for x in result]
+        [print(f"{result[x]}: {x}") for x in result]
     else:
         print("failure")
 print("end")
