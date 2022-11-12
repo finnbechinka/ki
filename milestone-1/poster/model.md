@@ -16,12 +16,14 @@ $Dozenten = \{\}$
 $Vorlesungen = \{\}$
 
 $Räume = \{\text{B 50-H}, \text{B 70-H}, \text{H 10-H}, \text{H 107}, \text{D 317}, \text{D 318}, \text{D 319}, \text{D 320}, \text{D 327}, \text{D 328}, \text{A 250-H}, \text{J 101} \}$ 
+### Domänen
+Combination aus Tag und Zeit?  
 
 $Tage = \{0, 1, 2, 3, 4\}$ 
 
 $Zeiten = \{8, 10, 12, 14, 16, 18\}$ 
-### Domänen
-Combination aus Tag und Zeit? 
+
+$D_i = Tage \times Zeiten = \{(0, 8), ..., (4, 18)\}$
 ### Constraints
 Pro Tag um die Gleiche Uhrzeit nur eine Vorlesung pro Raum.   
 Pro Dozent nur eine Vorlesung zur gleichen Zeit.  
