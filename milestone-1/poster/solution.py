@@ -1,14 +1,14 @@
 import timeit
 import random
 
-r = ["B 50-H", "B 70-H", "H 10-H", "H 107", "D 317", "D 318", "D 319", "D 320", "D 327", "D 328", "A 250-H", "J 101"]
-t = [0, 1, 2, 3, 4]
-z = [8, 10, 12, 14, 16, 18]
+rooms = ["B 50-H", "B 70-H", "H 10-H", "H 107", "D 317", "D 318", "D 319", "D 320", "D 327", "D 328", "A 250-H", "J 101"]
+days = [0, 1, 2, 3, 4]
+times = [8, 10, 12, 14, 16, 18]
 
-tz = [(x, y) for x in t for y in z]
-rtz = [(x, y) for x in r for y in tz]
+dt = [(x, y) for x in days for y in times]
+slots = [(x, y) for x in rooms for y in dt]
 
-v = [
+lectures = [
     ("Mathe 1", 1),
     ("Einf.i.d.Programm.m.Skriptsprachen", 1),
     ("techn. Informatik", 1),
@@ -29,10 +29,10 @@ v = [
 
 
 csp = {}
-csp["variables"] = v
+csp["variables"] = lectures
 csp["values"] = []
 for i in range(len(csp["variables"])):
-    csp["values"].append(rtz.copy())
+    csp["values"].append(slots.copy())
 
 
 def complete(assignment):
