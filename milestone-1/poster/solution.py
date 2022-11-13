@@ -59,8 +59,8 @@ def consistent(value, var, assignment, csp):
         return False
     # check if there is already a lecture at the proposed day/time for given semester
     for k, v in assignment.items():
-        curr_sem = v[1]
-        curr_dt = k[1]
+        curr_sem = k[1]
+        curr_dt = v[1]
         same_sem = curr_sem == sem
         same_dt = curr_dt == dt
         if same_sem and same_dt:
