@@ -29,3 +29,10 @@ Pro Tag um die Gleiche Uhrzeit nur eine Vorlesung vom Gleichen Dozenten/Semester
 Pro Dozent nur eine Vorlesung zur gleichen Zeit.  
 Ein freier Tag pro Semester.
 Vorlesungen gleich auf die Tage verteilt.
+
+
+## AC-3
+kanten:
+zwischen allen (events dürfen nicht gleichen slot haben)
+zwischen gleichen dozenten
+zwischen gleichen semestern
