@@ -57,14 +57,14 @@ def consistent(value, var, assignment, csp):
     # check if day is free day for given semester
     if free_days[sem] == day:
         return False
-    # check if there is already a lecture at the proposed day/time
+    # check if there is already a lecture at the proposed day/time for given semester
     for k, v in assignment.items():
         curr_sem = v[1]
-        if curr_sem == sem:
-            curr_dt = k[1]
-            if curr_dt == dt:
-                print("dt")
-                return False
+        curr_dt = k[1]
+        same_sem = curr_sem == sem
+        same_dt = curr_dt == dt
+        if same_sem and same_dt:
+            return False
     # check if slot is already is use
     if value in assignment.values():
         return False
