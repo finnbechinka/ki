@@ -3,7 +3,7 @@ import random
 
 rooms = ["B 50-H", "B 70-H", "H 10-H", "H 107", "D 317", "D 318", "D 319", "D 320", "D 327", "D 328", "A 250-H", "J 101"]
 days = [0, 1, 2, 3, 4]
-times = [8, 10, 12, 14, 16, 18]
+times = [8, 10, 12, 14, 16]
 
 dt = [(x, y) for x in days for y in times]
 slots = [(x, y) for x in rooms for y in dt]
@@ -14,6 +14,11 @@ lectures = [
     ("techn. Informatik", 1),
     ("Einführung i. d. Informatik", 1),
     ("OOP", 1),
+    ("asdasd1", 1),
+    ("Einfasdasdhen", 1),
+    ("dteasdasdik", 1),
+    ("Eiasdasdasik", 1),
+    ("sdasdasd", 1),
     ("Software Engineering", 2),
     ("Embedded Systems", 2),
     ("Datenbanken", 2),
@@ -44,6 +49,17 @@ def complete(assignment):
 
 
 def consistent(value, var, assignment, csp):
+    sem = var[1]
+    dt = value[1]
+    # check if there is already a lecture at the proposed day/time
+    for k, v in assignment.items():
+        curr_sem = v[1]
+        if curr_sem == sem:
+            curr_dt = k[1]
+            if curr_dt == dt:
+                print("dt")
+                return False
+    # check if slot is already is use
     if value in assignment.values():
         return False
     return True
@@ -73,7 +89,7 @@ print("start")
 n = 1
 runtime_total = 0
 for i in range(n):
-    random.shuffle(csp["variables"])
+    csp["variables"]
     result = bt_search({}, csp)
     if result:
         print("result:")
