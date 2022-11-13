@@ -25,5 +25,7 @@ $Zeiten = \{8, 10, 12, 14, 16, 18\}$
 
 $D_i = Tage \times Zeiten = \{(0, 8), ..., (4, 18)\}$
 ### Constraints
-Pro Tag um die Gleiche Uhrzeit nur eine Vorlesung pro Raum.   
+Pro Tag um die Gleiche Uhrzeit nur eine Vorlesung vom Gleichen Dozenten/Semester pro Raum.   
 Pro Dozent nur eine Vorlesung zur gleichen Zeit.  
+Ein freier Tag pro Semester.
+Vorlesungen gleich auf die Tage verteilt.
