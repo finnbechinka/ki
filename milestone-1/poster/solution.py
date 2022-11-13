@@ -42,6 +42,20 @@ lectures = [
     ("Computer Vision/P", 5, "Rexilius, Jan"),
 ]
 
+edges = [(x, y) for x in range(len(lectures)) for y in range(len(lectures))]
+remove = []
+for i in range(len(edges) - 1):
+    if edges[i][0] == edges[i][1]:
+        remove.append(edges[i])
+for e in remove:
+    edges.remove(e)
+neighbors = []
+for i in range(len(lectures)):
+    neighbors.append([])
+    for j in range(len(lectures)):
+        if i == j:
+            continue
+        neighbors[i].append(j)
 
 csp = {}
 csp["variables"] = lectures
@@ -108,7 +122,36 @@ def bt_search(assignment, csp):
     return False
 
 
+def ac3(csp):
+    queue = edges.copy()
+    while len(queue) >= 1:
+        x, y = queue.pop(0)
+        if arc_reduce(csp, x, y):
+            if len(csp["values"][x]) == 0:
+                return False
+            for z in neighbors[x]:
+                queue.append(z, x)
+
+
+def arc_reduce(csp, x, y):
+    removed = False
+    for v in csp["values"][x]:
+        tmp_ass = {}
+        tmp_ass[csp["variables"][x]] = v
+        found = False
+        for v2 in csp["values"][y]:
+            if consistent(v2, csp["variables"][y], tmp_ass, csp):
+                found = True
+        if not found:
+            csp["values"][x].remove(v)
+            removed = True
+    return removed
+
+
 print("start")
+# print(csp)
+ac3(csp)
+# print(csp)
 n = 1
 runtime_total = 0
 for i in range(n):
