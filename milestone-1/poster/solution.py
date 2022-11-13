@@ -19,17 +19,17 @@ lectures = [
     ("dteasdasdik", 1),
     ("Eiasdasdasik", 1),
     ("sdasdasd", 1),
-    ("Software Engineering", 2),
-    ("Embedded Systems", 2),
-    ("Datenbanken", 2),
-    ("Systemprogrammierung", 2),
-    ("Software Projektmanagement", 2),
-    ("Sicherheit u. Zuverlässigkeit", 3),
-    ("Webengineering", 3),
-    ("Compilerbau", 3),
-    ("Künstl. Intelligent", 3),
-    ("Technical English", 3),
-    ("Computer Vision", 3),
+    ("Software Engineering", 3),
+    ("Embedded Systems", 3),
+    ("Datenbanken", 3),
+    ("Systemprogrammierung", 3),
+    ("Software Projektmanagement", 3),
+    ("Sicherheit u. Zuverlässigkeit", 5),
+    ("Webengineering", 5),
+    ("Compilerbau", 5),
+    ("Künstl. Intelligent", 5),
+    ("Technical English", 5),
+    ("Computer Vision", 5),
 ]
 
 
@@ -49,8 +49,14 @@ def complete(assignment):
 
 
 def consistent(value, var, assignment, csp):
+    free_days = {1: 0, 3: 4, 5: 2}
     sem = var[1]
     dt = value[1]
+    day = dt[0]
+    time = dt[1]
+    # check if day is free day for given semester
+    if free_days[sem] == day:
+        return False
     # check if there is already a lecture at the proposed day/time
     for k, v in assignment.items():
         curr_sem = v[1]
