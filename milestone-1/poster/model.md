@@ -33,6 +33,6 @@ Vorlesungen gleich auf die Tage verteilt.
 
 ## AC-3
 kanten:
-zwischen allen (events dürfen nicht gleichen slot haben)
-zwischen gleichen dozenten
-zwischen gleichen semestern
+zwischen allen (events dürfen nicht gleichen slot haben)  
+zwischen gleichen dozenten  
+zwischen gleichen semestern  

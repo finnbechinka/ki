@@ -5,10 +5,10 @@ rooms = ["B 50-H", "B 70-H", "H 10-H", "H 107", "D 317", "D 318", "D 319", "D 32
 days = [0, 1, 2, 3, 4]
 times = [8, 10, 12]
 
-dt = [(x, y) for x in days for y in times]
-slots = [(x, y) for x in rooms for y in dt]
+day_time = [(x, y) for x in days for y in times]
+slots = [(x, y) for x in rooms for y in day_time]
 
-lectures = [
+events = [
     ("Mathe 1/V1", 1, "George, BC"),
     ("Mathe 1/V2", 1, "George, BC"),
     ("Mathe 1/Ü", 1, "Kreienkamp, Angela"),
@@ -42,7 +42,7 @@ lectures = [
     ("Computer Vision/P", 5, "Rexilius, Jan"),
 ]
 
-edges = [(x, y) for x in range(len(lectures)) for y in range(len(lectures))]
+edges = [(x, y) for x in range(len(events)) for y in range(len(events))]
 remove = []
 for i in range(len(edges) - 1):
     if edges[i][0] == edges[i][1]:
@@ -50,15 +50,15 @@ for i in range(len(edges) - 1):
 for e in remove:
     edges.remove(e)
 neighbors = []
-for i in range(len(lectures)):
+for i in range(len(events)):
     neighbors.append([])
-    for j in range(len(lectures)):
+    for j in range(len(events)):
         if i == j:
             continue
         neighbors[i].append(j)
 
 csp = {}
-csp["variables"] = lectures
+csp["variables"] = events
 csp["values"] = []
 for i in range(len(csp["variables"])):
     tmp = slots.copy()
@@ -76,9 +76,9 @@ def consistent(value, var, assignment, csp):
     free_days = {1: 0, 3: 4, 5: 2}
     sem = var[1]
     p = var[2]
-    dt = value[1]
-    day = dt[0]
-    time = dt[1]
+    day_time = value[1]
+    day = day_time[0]
+    time = day_time[1]
     # check if day is free day for given semester
     if free_days[sem] == day:
         return False
@@ -86,15 +86,15 @@ def consistent(value, var, assignment, csp):
     for k, v in assignment.items():
         curr_sem = k[1]
         curr_p = k[2]
-        curr_dt = v[1]
+        curr_day_time = v[1]
         same_sem = curr_sem == sem
-        same_dt = curr_dt == dt
+        same_day_time = curr_day_time == day_time
         same_p = curr_p == p
         # check if sem already has event at given time
-        if same_sem and same_dt:
+        if same_sem and same_day_time:
             return False
         # check if prof already has event at given time
-        if same_dt and same_p:
+        if same_day_time and same_p:
             return False
     # check if slot is already is use
     if value in assignment.values():
@@ -124,13 +124,14 @@ def bt_search(assignment, csp):
 
 def ac3(csp):
     queue = edges.copy()
-    while len(queue) >= 1:
+    while len(queue) > 0:
         x, y = queue.pop(0)
         if arc_reduce(csp, x, y):
             if len(csp["values"][x]) == 0:
                 return False
             for z in neighbors[x]:
-                queue.append(z, x)
+                queue.append((z, x))
+    return True
 
 
 def arc_reduce(csp, x, y):
@@ -140,6 +141,7 @@ def arc_reduce(csp, x, y):
         tmp_ass[csp["variables"][x]] = v
         found = False
         for v2 in csp["values"][y]:
+            print(f"{v}, {v2}")
             if consistent(v2, csp["variables"][y], tmp_ass, csp):
                 found = True
         if not found:
@@ -150,7 +152,15 @@ def arc_reduce(csp, x, y):
 
 print("start")
 # print(csp)
-ac3(csp)
+count = 0
+for d in csp["values"]:
+    count += len(d)
+print(count)
+print(ac3(csp))
+count = 0
+for d in csp["values"]:
+    count += len(d)
+print(count)
 # print(csp)
 n = 1
 runtime_total = 0
