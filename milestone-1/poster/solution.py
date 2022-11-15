@@ -63,7 +63,7 @@ csp["values"] = []
 for i in range(len(csp["variables"])):
     tmp = slots.copy()
     random.shuffle(tmp)
-    csp["values"].append(slots.copy())
+    csp["values"].append(tmp)
 
 
 def complete(assignment):
@@ -141,7 +141,6 @@ def arc_reduce(csp, x, y):
         tmp_ass[csp["variables"][x]] = v
         found = False
         for v2 in csp["values"][y]:
-            print(f"{v}, {v2}")
             if consistent(v2, csp["variables"][y], tmp_ass, csp):
                 found = True
         if not found:
@@ -151,17 +150,16 @@ def arc_reduce(csp, x, y):
 
 
 print("start")
-# print(csp)
 count = 0
 for d in csp["values"]:
     count += len(d)
 print(count)
+# ac-3 isn't doing anything for this problem
 print(ac3(csp))
 count = 0
 for d in csp["values"]:
     count += len(d)
 print(count)
-# print(csp)
 n = 1
 runtime_total = 0
 for i in range(n):
