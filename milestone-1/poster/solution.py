@@ -61,8 +61,13 @@ csp = {}
 csp["variables"] = events
 csp["values"] = []
 for i in range(len(csp["variables"])):
+    free_days = {1: 0, 3: 4, 5: 2}
     tmp = slots.copy()
     random.shuffle(tmp)
+    v_i = csp["variables"][i]
+    for val in tmp:
+        if val[1][0] == free_days[v_i[1]]:
+            tmp.remove(val)
     csp["values"].append(tmp)
 
 
