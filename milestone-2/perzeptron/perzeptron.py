@@ -99,7 +99,7 @@ def weight_update(w, x, y, learning_rate):
     # print(y)
 
     # --> replace with your code
-    new_w = w + (y * x)
+    new_w = w + learning_rate * (x[2] - y) * x[1]
     new_w = np.reshape(new_w, (3, 1))
     return new_w
 
@@ -108,8 +108,8 @@ def weight_update(w, x, y, learning_rate):
 # --> replace with your code
 w_ = np.zeros((3, 1))
 w_ = np.reshape(w, (3, 1))
-learning_rate = 0.1
-num_iterations = 10
+learning_rate = 1
+num_iterations = 1000
 
 # initialize array to save number of misclassified points in each iteration
 num_misses = np.zeros(num_iterations)
@@ -135,9 +135,9 @@ for i in range(num_iterations):
         break
 
     # select random misclassified index
-    index = random.randint(0, misclassified_count)
+    index = random.choice(misclassified)
 
     # perform one weight update using datapoint at selected index
     x = np.array([[X_ext[0][index]], [X_ext[1][index]], [X_ext[2][index]]])
-    w_ = weight_update(w_, x, x[0], learning_rate)
+    w_ = weight_update(w_, x, Y[0][index], learning_rate)
     continue
