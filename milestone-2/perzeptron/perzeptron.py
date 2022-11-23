@@ -45,15 +45,17 @@ def random_boundary(seed=42):
 # input X_ext : data matrix X, extended by a row of ones : of shape (3,m)
 # return predictions : sign(w.transpose * x) : of shape (1,m)
 def predict(w, X_ext):
-    predictions = np.zeros((1, m))
-    for i in range(m):
-        predictions[0][i] = w[0] + (w[1] * X_ext[1][i]) + (w[2] * X_ext[2][i])
-    np.sign(predictions, out=predictions)
+    # predictions = np.zeros((1, m))
+    # for i in range(m):
+    #     predictions[0][i] = w[0] + (w[1] * X_ext[1][i]) + (w[2] * X_ext[2][i])
+    # np.sign(predictions, out=predictions)
+    predictions = np.sign(np.matmul(w.transpose(), X_ext))
     predictions = np.reshape(predictions, (1, X_ext.shape[1]))
+    # print(predictions)
     return predictions
 
 
-m = 10
+m = 100
 
 # Generate m random data points. X has shape (2,m)
 X = generate_points(m)
@@ -97,7 +99,7 @@ def weight_update(w, x, y, learning_rate):
     # print(y)
 
     # --> replace with your code
-    new_w = random_boundary()
+    new_w = w + (y * x)
     new_w = np.reshape(new_w, (3, 1))
     return new_w
 
@@ -114,7 +116,7 @@ num_misses = np.zeros(num_iterations)
 
 for i in range(num_iterations):
     # calculate predictions for all points
-    predictions = predict(w, X_ext)
+    predictions = predict(w_, X_ext)
 
     # identify indices of misclassified points
     misclassified = []
@@ -129,6 +131,7 @@ for i in range(num_iterations):
     # break if there are none
     misclassified_count = len(misclassified)
     if misclassified_count == 0:
+        print("done")
         break
 
     # select random misclassified index
@@ -136,5 +139,5 @@ for i in range(num_iterations):
 
     # perform one weight update using datapoint at selected index
     x = np.array([[X_ext[0][index]], [X_ext[1][index]], [X_ext[2][index]]])
-    weight_update(w, x, x[0], learning_rate)
+    w_ = weight_update(w_, x, x[0], learning_rate)
     continue
