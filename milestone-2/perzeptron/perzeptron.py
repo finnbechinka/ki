@@ -99,7 +99,7 @@ def weight_update(w, x, y, learning_rate):
     # print(y)
 
     # --> replace with your code
-    new_w = w + learning_rate * (x[2] - y) * x[1]
+    new_w = w + learning_rate * x[2] * x[1]
     new_w = np.reshape(new_w, (3, 1))
     return new_w
 
