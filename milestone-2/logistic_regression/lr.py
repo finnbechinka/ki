@@ -119,11 +119,15 @@ def init_parameters(n):
     return w
 
 
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+
 def forward_pass(X, w):
     # Hint: use scipy.special.expit as sigmoid function
     # -- start of your code
     z = np.dot(np.transpose(w), X)
-    A = expit(z)
+    A = sigmoid(z)
     # -- end of your code
 
     assert A.shape == (1, X.shape[1])
@@ -144,7 +148,7 @@ def calculate_cost(loss):
 
     # -- start of your code
     m = X.shape[1]
-    cost = (np.sum(loss)) / m
+    cost = np.sum(loss) / m
     # -- end of your code
 
     assert isinstance(cost, float) or isinstance(cost, int)
@@ -256,7 +260,14 @@ plt.show()
 
 # -- start of your code
 
-accuracy = None
+predictions = np.sign(np.matmul(w.transpose(), X))
+predictions = np.reshape(predictions, (1, X.shape[1]))
+misclassified = []
+for i in range(len(predictions[0])):
+    if predictions[0][i] != X[0][i]:
+        misclassified.append(i)
+
+accuracy = (len(misclassified) / m) * 100
 
 # -- end of your code
 
