@@ -99,7 +99,10 @@ def weight_update(w, x, y, learning_rate):
     # print(y)
 
     # --> replace with your code
-    new_w = w + learning_rate * x[2] * x[1]
+    print(x)
+    print(y)
+    new_w = w + learning_rate * (x[2] - y) * x[1]
+    # print(new_w)
     new_w = np.reshape(new_w, (3, 1))
     return new_w
 
@@ -139,5 +142,5 @@ for i in range(num_iterations):
 
     # perform one weight update using datapoint at selected index
     x = np.array([[X_ext[0][index]], [X_ext[1][index]], [X_ext[2][index]]])
-    w_ = weight_update(w_, x, Y[0][index], learning_rate)
+    w_ = weight_update(w_, x, predictions[0][index], learning_rate)
     continue
