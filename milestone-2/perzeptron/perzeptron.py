@@ -138,7 +138,7 @@ for i in range(num_iterations):
         break
 
     # select random misclassified index
-    index = random.randint(0, misclassified_count)
+    index = random.choice(misclassified)
 
     # perform one weight update using datapoint at selected index
     x = np.array([[X_ext[0][index]], [X_ext[1][index]], [X_ext[2][index]]])
