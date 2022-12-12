@@ -7,6 +7,7 @@ import matplotlib.lines as mlines
 from PIL import Image
 from scipy import ndimage
 from scipy.special import expit  # expit is the sigmoid function
+import pandas as pd
 
 plt.rcParams["figure.figsize"] = (5.0, 4.0)  # set default size of plots
 plt.rcParams["image.interpolation"] = "nearest"
@@ -87,15 +88,30 @@ def plot_costs(costs, learning_rate):
 
 # Generate data that is not linearly separable
 np.random.seed(7)
-X1_raw, Y1_raw = sklearn.datasets.make_moons(n_samples=100, shuffle=True, noise=0.1, random_state=None)
+# X1_raw, Y1_raw = sklearn.datasets.make_moons(n_samples=100, shuffle=True, noise=0.1, random_state=None)
+dataset = pd.read_csv("./IRIS.csv")
+print(dataset)
+Y1_raw_str = dataset["species"].to_numpy()
+X1_raw = dataset.drop("species", axis=1).to_numpy()
+Y1_raw = np.empty(Y1_raw_str.shape)
+for i in range(len(Y1_raw_str)):
+    if Y1_raw_str[i] == "Iris-setosa":
+        Y1_raw[i] = 0
+    if Y1_raw_str[i] == "Iris-versicolor":
+        Y1_raw[i] = 1
+    if Y1_raw_str[i] == "Iris-virginica":
+        Y1_raw[i] = 2
+print(X1_raw)
+print(Y1_raw)
+
 
 # Tip: You can also use other datasets, e.g. sklearn.datasets.make_circles
 # Note that the "test your implementation" results in this notebook are calculated using the above dataset.
 
 # Visualize the data:
-fig, ax = plt.subplots()
-ax.scatter(X1_raw[:, 0], X1_raw[:, 1], marker="o", c=Y1_raw, s=25, edgecolor="k")
-plt.show()
+# fig, ax = plt.subplots()
+# ax.scatter(X1_raw[:, 0], X1_raw[:, 1], marker="o", c=Y1_raw, s=25, edgecolor="k")
+# plt.show()
 
 # Check and adjust dimensions if necessary
 print(X1_raw.shape)
@@ -129,9 +145,9 @@ def init_params(n_prev, n_curr):
 ### Q : Why is it not a good idea to use zero initialization for the weight matrices? (Hint: symmetry braking)
 
 np.random.seed(42)
-(W, b) = init_params(3, 1)
-print("W = " + str(W))
-print("b = " + str(b))
+# (W, b) = init_params(3, 1)
+# print("W = " + str(W))
+# print("b = " + str(b))
 
 
 def forward_step(A_prev, W, b, activation):
@@ -163,15 +179,15 @@ def forward_step(A_prev, W, b, activation):
 
 
 np.random.seed(42)
-A_prev = np.random.randn(3, 2)
-W = np.random.randn(1, 3)
-b = np.random.randn(1, 1)
+# A_prev = np.random.randn(3, 2)
+# W = np.random.randn(1, 3)
+# b = np.random.randn(1, 1)
 
-(Z_s, A_s) = forward_step(A_prev, W, b, activation="sigmoid")
-(Z_r, A_r) = forward_step(A_prev, W, b, activation="relu")
+# (Z_s, A_s) = forward_step(A_prev, W, b, activation="sigmoid")
+# (Z_r, A_r) = forward_step(A_prev, W, b, activation="relu")
 
-print("With sigmoid: A = " + str(A_s))
-print("With ReLU: A = " + str(A_r))
+# print("With sigmoid: A = " + str(A_s))
+# print("With ReLU: A = " + str(A_r))
 
 
 def compute_cost(Y_hat, Y):
@@ -197,10 +213,10 @@ def compute_cost(Y_hat, Y):
     return cost
 
 
-Y = np.asarray([[1, 1, 1]])
-Y_hat = np.array([[0.8, 0.9, 0.4]])
+# Y = np.asarray([[1, 1, 1]])
+# Y_hat = np.array([[0.8, 0.9, 0.4]])
 
-print("cost = " + str(compute_cost(Y_hat, Y)))
+# print("cost = " + str(compute_cost(Y_hat, Y)))
 
 
 def backward_step(A_prev, W, b, a, Z, dA):
@@ -240,23 +256,23 @@ def backward_step(A_prev, W, b, a, Z, dA):
 ### Q : What happens when the "axis" parameter of np.sum is set to 1?
 
 np.random.seed(7)
-dAL = np.random.randn(1, 2)  # (size of this layer, number of examples)
-A_prev = np.random.randn(2, 2)  # (size of prev layer, number of examples)
-W = np.random.randn(1, 2)
-b = np.random.randn(1, 1)
-Z = np.random.randn(1, 2)
+# dAL = np.random.randn(1, 2)  # (size of this layer, number of examples)
+# A_prev = np.random.randn(2, 2)  # (size of prev layer, number of examples)
+# W = np.random.randn(1, 2)
+# b = np.random.randn(1, 1)
+# Z = np.random.randn(1, 2)
 
-(dA_prev, dW, db) = backward_step(A_prev, W, b, "sigmoid", Z, dAL)
-print("for sigmoid:")
-print("dA_prev = " + str(dA_prev))
-print("dW = " + str(dW))
-print("db = " + str(db) + "\n")
+# (dA_prev, dW, db) = backward_step(A_prev, W, b, "sigmoid", Z, dAL)
+# print("for sigmoid:")
+# print("dA_prev = " + str(dA_prev))
+# print("dW = " + str(dW))
+# print("db = " + str(db) + "\n")
 
-dA_prev, dW, db = backward_step(A_prev, W, b, "relu", Z, dAL)
-print("for relu:")
-print("dA_prev = " + str(dA_prev))
-print("dW = " + str(dW))
-print("db = " + str(db))
+# dA_prev, dW, db = backward_step(A_prev, W, b, "relu", Z, dAL)
+# print("for relu:")
+# print("dA_prev = " + str(dA_prev))
+# print("dW = " + str(dW))
+# print("db = " + str(db))
 
 
 def update_parameters(parameters, gradients, learning_rate):
@@ -277,15 +293,15 @@ def update_parameters(parameters, gradients, learning_rate):
 
 
 np.random.seed(7)
-W = np.random.randn(2, 3)
-b = np.random.randn(2, 1)
-a = "relu"
-dW = np.random.randn(2, 3)
-db = np.random.randn(2, 1)
-(W_new, b_new, a) = update_parameters((W, b, a), (dW, db), 0.1)
+# W = np.random.randn(2, 3)
+# b = np.random.randn(2, 1)
+# a = "relu"
+# dW = np.random.randn(2, 3)
+# db = np.random.randn(2, 1)
+# (W_new, b_new, a) = update_parameters((W, b, a), (dW, db), 0.1)
 
-print("W_new = " + str(W_new))
-print("b_new = " + str(b_new))
+# print("W_new = " + str(W_new))
+# print("b_new = " + str(b_new))
 
 
 def init_model(layer_dims, activations):
@@ -310,12 +326,12 @@ def init_model(layer_dims, activations):
 
 
 np.random.seed(7)
-model = init_model((2, 3, 1), ("relu", "sigmoid"))
-for l in range(1, len(model), 1):
-    (W, b, a) = model[l]
-    print("Layer", l, ":", W.shape[1], "inputs and", W.shape[0], "outputs ( activation", a, ")")
-    print("W: \n", W)
-    print("b: \n", b)
+# model = init_model((2, 3, 1), ("relu", "sigmoid"))
+# for l in range(1, len(model), 1):
+#     (W, b, a) = model[l]
+#     print("Layer", l, ":", W.shape[1], "inputs and", W.shape[0], "outputs ( activation", a, ")")
+#     print("W: \n", W)
+#     print("b: \n", b)
 
 
 def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost=False):
@@ -392,7 +408,7 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
 
 
 np.random.seed(7)
-model = init_model((2, 3, 1), ("relu", "sigmoid"))
+model = init_model((2, 3, 4, 5, 1), ("relu", "sigmoid"))
 num_iterations = 1000
 learning_rate = 0.1
 print_cost = False
@@ -473,7 +489,7 @@ def model_accuracy(AL, Y):
 
 # Train set accuray of our model_1
 np.random.seed(77)
-model = init_model((2, 5, 1), ("relu", "sigmoid"))
+model = init_model((2, 3, 1), ("relu", "sigmoid"))
 num_iterations = 2000
 learning_rate = 0.1
 print_cost = True
