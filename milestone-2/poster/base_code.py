@@ -69,7 +69,7 @@ def sigmoid_backward(dA, Z):
       dZ -- gradients for Z (Partial derivative of the cost with respect to Z)
     """
     s = 1 / (1 + np.exp(-Z))
-    dZ = dA * s * (1 - s)
+    dZ = np.multiply(dA, np.multiply(s, (1 - s)))
     assert dZ.shape == Z.shape
 
     return dZ
@@ -119,8 +119,8 @@ def init_params(n_prev, n_curr):
     parameters --- (W, b): weight matrix W of shape (n_curr, n_prev), bias vector b of shape (n_curr, 1)
     """
 
-    W = None
-    b = None
+    W = np.random.randn(n_curr, n_prev) * 0.01
+    b = np.zeros((n_curr, 1))
 
     return (W, b)
 
@@ -147,15 +147,15 @@ def forward_step(A_prev, W, b, activation):
     """
 
     # The linear part of a layer's forward propagation.
-    Z = None
+    Z = np.dot(W, A_prev) + b
     assert Z.shape == (W.shape[0], A_prev.shape[1])
 
     # The none-linear part
     if activation == "sigmoid":
-        A = None
+        A = sigmoid(Z)
 
     elif activation == "relu":
-        A = None
+        A = relu(Z)
 
     assert A.shape == (W.shape[0], A_prev.shape[1])
 
@@ -186,7 +186,10 @@ def compute_cost(Y_hat, Y):
 
     m = Y.shape[1]  # number of examples
 
-    cost = None
+    results = []
+    for i in range(m):
+        results.append((Y[0, i] * np.log(Y_hat[0, i])) + ((1 - Y[0, i]) * np.log(1 - Y_hat[0, i])))
+    cost = 1 / m * np.sum(results)
 
     cost = np.squeeze(cost)  # turns [[17]] into 17
     assert cost.shape == ()
@@ -216,15 +219,15 @@ def backward_step(A_prev, W, b, a, Z, dA):
 
     # The non-linear backward part
     if a == "relu":
-        dZ = None
+        dZ = relu_backward(dA, Z)
 
     elif a == "sigmoid":
-        dZ = None
+        dZ = sigmoid_backward(dA, Z)
 
     # The linear backward part
-    dW = None
-    db = None
-    dA_prev = None
+    dW = 1 / m * np.dot(dZ, np.transpose(A_prev))
+    db = np.asmatrix(1 / m * np.sum(dZ, axis=1)).transpose()
+    dA_prev = np.dot(np.transpose(W), dZ)
 
     assert dA_prev.shape == A_prev.shape
     assert dW.shape == W.shape
@@ -267,8 +270,8 @@ def update_parameters(parameters, gradients, learning_rate):
     """
     (W, b, a) = parameters
     (dW, db) = gradients
-    W_new = None
-    b_new = None
+    W_new = W - learning_rate * dW
+    b_new = b - learning_rate * db
 
     return (W_new, b_new, a)
 
@@ -300,8 +303,8 @@ def init_model(layer_dims, activations):
     model[0] = (None, None, None)  # Interpreting Input layer as layer number 0 (no parameters, no activation)
 
     for l in range(1, L + 1, 1):
-        (W, b) = None
-        model[l] = None
+        (W, b) = init_params(layer_dims[l - 1], layer_dims[l])
+        model[l] = (W, b, activations[l - 1])
 
     return model
 
@@ -347,33 +350,33 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
     for i in range(0, num_iterations):
 
         # Forward propagation
-        A_prev = None
+        A_prev = X
         for l in range(1, L + 1, 1):
-            (W, b, a) = None
-            (Z, A) = None
-            outputs[l] = None
-            A_prev = None
-        AL = None  # Output of last layer L (i.e. predictions)
+            (W, b, a) = model[l]
+            (Z, A) = forward_step(A_prev, W, b, a)
+            outputs[l] = (Z, A)
+            A_prev = A
+        AL = A_prev  # Output of last layer L (i.e. predictions)
 
         # Compute cost
-        cost = None
+        cost = compute_cost(AL, Y)
 
         # Initialize backward propagation by calculating gradients for AL
-        dAL = None
+        dAL = -np.divide(Y, AL) + np.divide((1 - Y), (1 - AL))
 
         # Backward propagation
         dA = dAL
         for l in range(L, 0, -1):
-            (W, b, a) = None
-            (Z_prev, A_prev) = None
-            (Z, A) = None
-            (dA_prev, dW, db) = None
-            grads[l] = None
-            dA = None
+            (W, b, a) = model[l]
+            (Z_prev, A_prev) = outputs[l - 1]
+            (Z, A) = outputs[l]
+            (dA_prev, dW, db) = backward_step(A_prev, W, b, a, Z, dA)
+            grads[l] = (dW, db)
+            dA = dA_prev
 
         # Update model parameters
         for l in range(1, L + 1, 1):
-            model[l] = None
+            model[l] = update_parameters(model[l], grads[l], learning_rate)
 
         # Print the cost every 100 training example
         if print_cost and i % 100 == 0:
@@ -420,11 +423,11 @@ def model_forward(model, X):
     # Forward propagation
     A_prev = X
     for l in range(1, L + 1, 1):
-        (W, b, a) = None
-        (Z, A) = None
-        outputs[l] = None
-        A_prev = None
-    AL = None  # Output of last layer L (i.e. predictions)
+        (W, b, a) = model[l]
+        (Z, A) = forward_step(A_prev, W, b, a)
+        outputs[l] = (Z, A)
+        A_prev = A
+    AL = A_prev  # Output of last layer L (i.e. predictions)
 
     assert AL.shape == (1, X.shape[1])
 
@@ -453,7 +456,7 @@ def model_accuracy(AL, Y):
     accuracy --- accuracy of the predictions (correct rate)
     """
     m = Y.shape[1]  # number of data points
-
+    p = np.empty(AL.shape)
     # convert probas to 0/1 predictions
     for i in range(0, AL.shape[1]):
         if AL[0, i] > 0.5:
