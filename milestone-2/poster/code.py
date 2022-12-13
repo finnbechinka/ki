@@ -75,8 +75,6 @@ def sigmoid_backward(dA, Z):
 
     return dZ
 
-    ### Q : How does the notation exactly work: dZ[Z <= 0] = 0  ?
-
 
 def plot_costs(costs, learning_rate):
     plt.plot(np.squeeze(costs))
@@ -86,11 +84,8 @@ def plot_costs(costs, learning_rate):
     plt.show()
 
 
-# Generate data that is not linearly separable
-np.random.seed(7)
-# X1_raw, Y1_raw = sklearn.datasets.make_moons(n_samples=100, shuffle=True, noise=0.1, random_state=None)
 dataset = pd.read_csv("./IRIS.csv")
-print(dataset)
+# print(dataset)
 Y1_raw_str = dataset["species"].to_numpy()
 X1_raw = dataset.drop("species", axis=1).to_numpy()
 Y1_raw = np.empty((Y1_raw_str.shape[0], 3))
@@ -101,28 +96,22 @@ for i in range(len(Y1_raw_str)):
         Y1_raw[i] = np.array([0, 1, 0])
     if Y1_raw_str[i] == "Iris-virginica":
         Y1_raw[i] = np.array([0, 0, 1])
-print(X1_raw)
-print(Y1_raw)
 
-
-# Tip: You can also use other datasets, e.g. sklearn.datasets.make_circles
-# Note that the "test your implementation" results in this notebook are calculated using the above dataset.
 
 # Visualize the data:
 # fig, ax = plt.subplots()
 # ax.scatter(X1_raw[:, 0], X1_raw[:, 1], marker="o", c=Y1_raw, s=25, edgecolor="k")
 # plt.show()
 
-# Check and adjust dimensions if necessary
-print(X1_raw.shape)
-print(Y1_raw.shape)
+# print(X1_raw.shape)
+# print(Y1_raw.shape)
 
-# We want to have one datapoint per column in X: (2, 100)
-# and one label per column in Y : (1, 100)
 X1 = np.transpose(X1_raw)
-Y1 = Y1_raw.reshape(3, Y1_raw.shape[0])
-print(X1.shape)
-print(Y1.shape)
+Y1 = np.transpose(Y1_raw)
+# print(X1.shape)
+# print(Y1.shape)
+print(X1)
+print(Y1)
 
 
 def init_params(n_prev, n_curr):
@@ -139,15 +128,6 @@ def init_params(n_prev, n_curr):
     b = np.zeros((n_curr, 1))
 
     return (W, b)
-
-
-### Q : How to initialize random parameters? Why multiply with 0.01?
-### Q : Why is it not a good idea to use zero initialization for the weight matrices? (Hint: symmetry braking)
-
-np.random.seed(42)
-# (W, b) = init_params(3, 1)
-# print("W = " + str(W))
-# print("b = " + str(b))
 
 
 def forward_step(A_prev, W, b, activation):
@@ -178,18 +158,6 @@ def forward_step(A_prev, W, b, activation):
     return (Z, A)
 
 
-np.random.seed(42)
-# A_prev = np.random.randn(3, 2)
-# W = np.random.randn(1, 3)
-# b = np.random.randn(1, 1)
-
-# (Z_s, A_s) = forward_step(A_prev, W, b, activation="sigmoid")
-# (Z_r, A_r) = forward_step(A_prev, W, b, activation="relu")
-
-# print("With sigmoid: A = " + str(A_s))
-# print("With ReLU: A = " + str(A_r))
-
-
 def compute_cost(Y_hat, Y):
     """
     Arguments:
@@ -202,21 +170,13 @@ def compute_cost(Y_hat, Y):
 
     m = Y.shape[1]  # number of examples
 
-    results = []
-    for i in range(m):
-        results.append((Y[0, i] * np.log(Y_hat[0, i])) + ((1 - Y[0, i]) * np.log(1 - Y_hat[0, i])))
-    cost = 1 / m * np.sum(results)
+    sum = np.sum(np.multiply(Y, np.log(Y_hat)) + np.multiply((1 - Y), np.log(1 - Y_hat)))
+    cost = (-1 / m) * sum
 
     cost = np.squeeze(cost)  # turns [[17]] into 17
     assert cost.shape == ()
 
     return cost
-
-
-# Y = np.asarray([[1, 1, 1]])
-# Y_hat = np.array([[0.8, 0.9, 0.4]])
-
-# print("cost = " + str(compute_cost(Y_hat, Y)))
 
 
 def backward_step(A_prev, W, b, a, Z, dA):
@@ -252,29 +212,6 @@ def backward_step(A_prev, W, b, a, Z, dA):
     return (dA_prev, dW, db)
 
 
-### Q : Give a short explanation of what relu_backward is doing
-### Q : What happens when the "axis" parameter of np.sum is set to 1?
-
-np.random.seed(7)
-# dAL = np.random.randn(1, 2)  # (size of this layer, number of examples)
-# A_prev = np.random.randn(2, 2)  # (size of prev layer, number of examples)
-# W = np.random.randn(1, 2)
-# b = np.random.randn(1, 1)
-# Z = np.random.randn(1, 2)
-
-# (dA_prev, dW, db) = backward_step(A_prev, W, b, "sigmoid", Z, dAL)
-# print("for sigmoid:")
-# print("dA_prev = " + str(dA_prev))
-# print("dW = " + str(dW))
-# print("db = " + str(db) + "\n")
-
-# dA_prev, dW, db = backward_step(A_prev, W, b, "relu", Z, dAL)
-# print("for relu:")
-# print("dA_prev = " + str(dA_prev))
-# print("dW = " + str(dW))
-# print("db = " + str(db))
-
-
 def update_parameters(parameters, gradients, learning_rate):
     """
     Arguments:
@@ -290,18 +227,6 @@ def update_parameters(parameters, gradients, learning_rate):
     b_new = b - learning_rate * db
 
     return (W_new, b_new, a)
-
-
-np.random.seed(7)
-# W = np.random.randn(2, 3)
-# b = np.random.randn(2, 1)
-# a = "relu"
-# dW = np.random.randn(2, 3)
-# db = np.random.randn(2, 1)
-# (W_new, b_new, a) = update_parameters((W, b, a), (dW, db), 0.1)
-
-# print("W_new = " + str(W_new))
-# print("b_new = " + str(b_new))
 
 
 def init_model(layer_dims, activations):
@@ -323,15 +248,6 @@ def init_model(layer_dims, activations):
         model[l] = (W, b, activations[l - 1])
 
     return model
-
-
-np.random.seed(7)
-# model = init_model((2, 3, 1), ("relu", "sigmoid"))
-# for l in range(1, len(model), 1):
-#     (W, b, a) = model[l]
-#     print("Layer", l, ":", W.shape[1], "inputs and", W.shape[0], "outputs ( activation", a, ")")
-#     print("W: \n", W)
-#     print("b: \n", b)
 
 
 def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost=False):
@@ -404,22 +320,6 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
 
     return model, costs
 
-    ### Q : What does np.divide do exactly?
-
-
-np.random.seed(7)
-model = init_model((4, 5, 3), ("relu", "sigmoid"))
-num_iterations = 1000
-learning_rate = 0.1
-print_cost = False
-model, costs = train_model(model, X1, Y1, num_iterations, learning_rate, print_cost)
-# plot_costs(costs, learning_rate)
-for l in range(1, len(model), 1):
-    (W, b, a) = model[l]
-    print("Layer", l)
-    print("W: \n", W)
-    print("b: \n", b)
-
 
 def model_forward(model, X):
     """
@@ -452,17 +352,6 @@ def model_forward(model, X):
     return AL, outputs
 
 
-np.random.seed(7)
-model = init_model((4, 5, 3), ("relu", "sigmoid"))
-num_iterations = 1000
-learning_rate = 0.1
-print_cost = False
-trained_model, costs = train_model(model, X1, Y1, num_iterations, learning_rate, print_cost)
-probabilities, outputs = model_forward(model, X1)
-print(probabilities[0, 1:10])
-print(Y1[0, 1:10])
-
-
 def model_accuracy(AL, Y):
     """
     Arguments:
@@ -477,25 +366,54 @@ def model_accuracy(AL, Y):
     p = np.empty(AL.shape)
     # convert probas to 0/1 predictions
     for i in range(0, AL.shape[1]):
-        if AL[0, i] > 0.5:
+        x = AL[0, i]
+        y = AL[1, i]
+        z = AL[2, i]
+        if x > y and x > z:
             p[0, i] = 1
-        else:
+            p[1, i] = 0
+            p[2, i] = 0
+        elif y > x and y > z:
             p[0, i] = 0
+            p[1, i] = 1
+            p[2, i] = 0
+        elif z > x and z > y:
+            p[0, i] = 0
+            p[1, i] = 0
+            p[2, i] = 1
 
-    accuracy = np.sum((p == Y) / m)
+    sum = 0
+    for i in range(0, p.shape[1]):
+        x1 = p[0, i]
+        y1 = p[1, i]
+        z1 = p[2, i]
+        x2 = Y[0, i]
+        y2 = Y[1, i]
+        z2 = Y[2, i]
+        if x1 == x2 and y1 == y2 and z1 == z2:
+            sum += 1
+
+    accuracy = sum / m
 
     return (p, accuracy)
 
 
 # Train set accuray of our model_1
 np.random.seed(77)
-model = init_model((4, 5, 3), ("relu", "sigmoid"))
-num_iterations = 2000
+layers = (4, 5, 3)
+acts = ("relu", "sigmoid")
 learning_rate = 0.1
+model = init_model(layers, acts)
+num_iterations = 10000
+
 print_cost = True
 trained_model, costs = train_model(model, X1, Y1, num_iterations, learning_rate, print_cost)
 
 AY, outputs = model_forward(trained_model, X1)
+print("AY")
+print(AY)
+# print("outputs")
+# print(outputs)
 
 plot_costs(costs, learning_rate)
 
