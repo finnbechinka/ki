@@ -96,6 +96,21 @@ for i in range(len(Y1_raw_str)):
         Y1_raw[i] = np.array([0, 1, 0])
     if Y1_raw_str[i] == "Iris-virginica":
         Y1_raw[i] = np.array([0, 0, 1])
+X1_raw_train = np.empty((75, 4))
+X1_raw_test = np.empty((75, 4))
+Y1_raw_train = np.empty((75, 3))
+Y1_raw_test = np.empty((75, 3))
+
+for i in range(X1_raw.shape[0]):
+    print(X1_raw[i])
+    print(Y1_raw[i])
+
+    if i % 2 == 0:
+        X1_raw_train[i % 75] = X1_raw[i]
+        Y1_raw_train[i % 75] = Y1_raw[i]
+    else:
+        X1_raw_test[i % 75] = X1_raw[i]
+        Y1_raw_test[i % 75] = Y1_raw[i]
 
 
 # Visualize the data:
@@ -105,9 +120,10 @@ for i in range(len(Y1_raw_str)):
 
 # print(X1_raw.shape)
 # print(Y1_raw.shape)
-
-X1 = np.transpose(X1_raw)
-Y1 = np.transpose(Y1_raw)
+X1 = np.transpose(X1_raw_train)
+Y1 = np.transpose(Y1_raw_train)
+X1_TEST = np.transpose(X1_raw_test)
+Y1_TEST = np.transpose(Y1_raw_test)
 # print(X1.shape)
 # print(Y1.shape)
 print(X1)
@@ -402,7 +418,7 @@ def model_accuracy(AL, Y):
 np.random.seed(77)
 layers = (4, 5, 3)
 acts = ("relu", "sigmoid")
-learning_rate = 0.1
+learning_rate = 0.01
 model = init_model(layers, acts)
 num_iterations = 10000
 
@@ -410,8 +426,8 @@ print_cost = True
 trained_model, costs = train_model(model, X1, Y1, num_iterations, learning_rate, print_cost)
 
 AY, outputs = model_forward(trained_model, X1)
-print("AY")
-print(AY)
+# print("AY")
+# print(AY)
 # print("outputs")
 # print(outputs)
 
@@ -419,3 +435,14 @@ plot_costs(costs, learning_rate)
 
 p, accuracy = model_accuracy(AY, Y1)
 print("Train Accuracy: ", accuracy)
+
+AY, outputs = model_forward(trained_model, X1_TEST)
+# print("AY")
+# print(AY)
+# print("outputs")
+# print(outputs)
+
+plot_costs(costs, learning_rate)
+
+p, accuracy = model_accuracy(AY, Y1_TEST)
+print("Test Accuracy: ", accuracy)
