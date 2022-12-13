@@ -102,9 +102,6 @@ Y1_raw_train = np.empty((75, 3))
 Y1_raw_test = np.empty((75, 3))
 
 for i in range(X1_raw.shape[0]):
-    print(X1_raw[i])
-    print(Y1_raw[i])
-
     if i % 2 == 0:
         X1_raw_train[i % 75] = X1_raw[i]
         Y1_raw_train[i % 75] = Y1_raw[i]
@@ -420,7 +417,7 @@ layers = (4, 5, 3)
 acts = ("relu", "sigmoid")
 learning_rate = 0.01
 model = init_model(layers, acts)
-num_iterations = 10000
+num_iterations = 5000
 
 print_cost = True
 trained_model, costs = train_model(model, X1, Y1, num_iterations, learning_rate, print_cost)
