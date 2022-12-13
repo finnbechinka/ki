@@ -93,14 +93,14 @@ dataset = pd.read_csv("./IRIS.csv")
 print(dataset)
 Y1_raw_str = dataset["species"].to_numpy()
 X1_raw = dataset.drop("species", axis=1).to_numpy()
-Y1_raw = np.empty(Y1_raw_str.shape)
+Y1_raw = np.empty((Y1_raw_str.shape[0], 3))
 for i in range(len(Y1_raw_str)):
     if Y1_raw_str[i] == "Iris-setosa":
-        Y1_raw[i] = 0
+        Y1_raw[i] = np.array([1, 0, 0])
     if Y1_raw_str[i] == "Iris-versicolor":
-        Y1_raw[i] = 1
+        Y1_raw[i] = np.array([0, 1, 0])
     if Y1_raw_str[i] == "Iris-virginica":
-        Y1_raw[i] = 2
+        Y1_raw[i] = np.array([0, 0, 1])
 print(X1_raw)
 print(Y1_raw)
 
@@ -120,7 +120,7 @@ print(Y1_raw.shape)
 # We want to have one datapoint per column in X: (2, 100)
 # and one label per column in Y : (1, 100)
 X1 = np.transpose(X1_raw)
-Y1 = Y1_raw.reshape(1, Y1_raw.shape[0])
+Y1 = Y1_raw.reshape(3, Y1_raw.shape[0])
 print(X1.shape)
 print(Y1.shape)
 
@@ -242,7 +242,7 @@ def backward_step(A_prev, W, b, a, Z, dA):
 
     # The linear backward part
     dW = 1 / m * np.dot(dZ, np.transpose(A_prev))
-    db = np.asmatrix(1 / m * np.sum(dZ, axis=1)).transpose()
+    db = 1 / m * np.sum(dZ, axis=1, keepdims=True)
     dA_prev = np.dot(np.transpose(W), dZ)
 
     assert dA_prev.shape == A_prev.shape
@@ -353,9 +353,9 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
     n = X.shape[0]  # number of features
     m = X.shape[1]  # number of examples
     L = len(model) - 1  # number of layers in model (input layer not included)
-    print(n)
-    print(model)
-    print(model[1][0].shape[1])
+    # print(n)
+    # print(model)
+    # print(model[1][0].shape[1])
     assert n == model[1][0].shape[1]  # n == (layer 1 -> W -> number of columns) ?
 
     costs = []  # to keep track of the cost
@@ -375,7 +375,7 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
             outputs[l] = (Z, A)
             A_prev = A
         AL = A_prev  # Output of last layer L (i.e. predictions)
-
+        # print(AL)
         # Compute cost
         cost = compute_cost(AL, Y)
 
@@ -408,7 +408,7 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
 
 
 np.random.seed(7)
-model = init_model((2, 3, 4, 5, 1), ("relu", "sigmoid"))
+model = init_model((4, 5, 3), ("relu", "sigmoid"))
 num_iterations = 1000
 learning_rate = 0.1
 print_cost = False
@@ -447,13 +447,13 @@ def model_forward(model, X):
         A_prev = A
     AL = A_prev  # Output of last layer L (i.e. predictions)
 
-    assert AL.shape == (1, X.shape[1])
+    assert AL.shape == (3, X.shape[1])
 
     return AL, outputs
 
 
 np.random.seed(7)
-model = init_model((2, 3, 1), ("relu", "sigmoid"))
+model = init_model((4, 5, 3), ("relu", "sigmoid"))
 num_iterations = 1000
 learning_rate = 0.1
 print_cost = False
@@ -489,7 +489,7 @@ def model_accuracy(AL, Y):
 
 # Train set accuray of our model_1
 np.random.seed(77)
-model = init_model((2, 3, 1), ("relu", "sigmoid"))
+model = init_model((4, 5, 3), ("relu", "sigmoid"))
 num_iterations = 2000
 learning_rate = 0.1
 print_cost = True
