@@ -85,7 +85,6 @@ def plot_costs(costs, learning_rate):
 
 
 dataset = pd.read_csv("./IRIS.csv")
-# print(dataset)
 Y1_raw_str = dataset["species"].to_numpy()
 X1_raw = dataset.drop("species", axis=1).to_numpy()
 Y1_raw = np.empty((Y1_raw_str.shape[0], 3))
@@ -110,21 +109,10 @@ for i in range(X1_raw.shape[0]):
         Y1_raw_test[i % 75] = Y1_raw[i]
 
 
-# Visualize the data:
-# fig, ax = plt.subplots()
-# ax.scatter(X1_raw[:, 0], X1_raw[:, 1], marker="o", c=Y1_raw, s=25, edgecolor="k")
-# plt.show()
-
-# print(X1_raw.shape)
-# print(Y1_raw.shape)
 X1 = np.transpose(X1_raw_train)
 Y1 = np.transpose(Y1_raw_train)
 X1_TEST = np.transpose(X1_raw_test)
 Y1_TEST = np.transpose(Y1_raw_test)
-# print(X1.shape)
-# print(Y1.shape)
-print(X1)
-print(Y1)
 
 
 def init_params(n_prev, n_curr):
@@ -174,8 +162,8 @@ def forward_step(A_prev, W, b, activation):
 def compute_cost(Y_hat, Y):
     """
     Arguments:
-    Y_hat --- predictions: vector of shape (1, number of examples)
-    Y --- labels: vector of shape (1, number of examples)
+    Y_hat --- predictions: vector of shape (number of classes, number of examples)
+    Y --- labels: vector of shape (number of classes, number of examples)
 
     Returns:
     cost --- cross-entropy cost
@@ -269,7 +257,7 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
     Arguments:
     model --- model to be trained: array of (W, b, activation) tuples, one for each layer
     X --- input data: of shape (n, number of examples)
-    Y --- labels for the input data: of shape (1, number of examples)
+    Y --- labels for the input data: of shape (number of classes, number of examples)
     num_iterations --- number of iterations of the optimization loop
     learning_rate --- learning rate of the gradient descent update rule
     print_cost --- If set to True, this will print the cost every 100 iterations
@@ -282,9 +270,6 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
     n = X.shape[0]  # number of features
     m = X.shape[1]  # number of examples
     L = len(model) - 1  # number of layers in model (input layer not included)
-    # print(n)
-    # print(model)
-    # print(model[1][0].shape[1])
     assert n == model[1][0].shape[1]  # n == (layer 1 -> W -> number of columns) ?
 
     costs = []  # to keep track of the cost
@@ -304,7 +289,6 @@ def train_model(model, X, Y, num_iterations=3000, learning_rate=0.01, print_cost
             outputs[l] = (Z, A)
             A_prev = A
         AL = A_prev  # Output of last layer L (i.e. predictions)
-        # print(AL)
         # Compute cost
         cost = compute_cost(AL, Y)
 
@@ -377,7 +361,7 @@ def model_accuracy(AL, Y):
     """
     m = Y.shape[1]  # number of data points
     p = np.empty(AL.shape)
-    # convert probas to 0/1 predictions
+
     for i in range(0, AL.shape[1]):
         x = AL[0, i]
         y = AL[1, i]
@@ -411,9 +395,8 @@ def model_accuracy(AL, Y):
     return (p, accuracy)
 
 
-# Train set accuray of our model_1
 np.random.seed(77)
-layers = (4, 5, 3)
+layers = (4, 3, 3)
 acts = ("relu", "sigmoid")
 learning_rate = 0.01
 model = init_model(layers, acts)
@@ -423,10 +406,6 @@ print_cost = True
 trained_model, costs = train_model(model, X1, Y1, num_iterations, learning_rate, print_cost)
 
 AY, outputs = model_forward(trained_model, X1)
-# print("AY")
-# print(AY)
-# print("outputs")
-# print(outputs)
 
 plot_costs(costs, learning_rate)
 
@@ -434,12 +413,6 @@ p, accuracy = model_accuracy(AY, Y1)
 print("Train Accuracy: ", accuracy)
 
 AY, outputs = model_forward(trained_model, X1_TEST)
-# print("AY")
-# print(AY)
-# print("outputs")
-# print(outputs)
-
-plot_costs(costs, learning_rate)
 
 p, accuracy = model_accuracy(AY, Y1_TEST)
 print("Test Accuracy: ", accuracy)
